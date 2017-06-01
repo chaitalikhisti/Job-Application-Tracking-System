@@ -1,0 +1,21 @@
+.label
+{
+	-fx-font-size:12px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #0E1D33;
+}
+
+#actiontarget 
+{
+    -fx-fill:WHITE;
+    -fx-font-weight:bold;
+    
+}
+.button 
+{
+    -fx-text-fill:white;
+    -fx-font-family:"Arial Narrow";
+    -fx-font-weight:bold;
+    -fx-background-color:linear-gradient(#61a2b1,#2A5058);
+    
+}

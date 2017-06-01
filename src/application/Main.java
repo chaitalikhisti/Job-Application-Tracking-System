@@ -23,34 +23,40 @@ public class Main extends Application
 			grid.setVgap(10);
 			grid.setPadding(new Insets(25, 25, 25, 25));
 			//nodes
-			Text sceneTitle = new Text("Welcome!!!");
+			Text sceneTitle = new Text("Welcome to the Application!!!");
 			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-			Label userName = new Label("User Name: ");
-			TextField userTextField = new TextField();
-			Label pw = new Label("Password: ");
-			PasswordField pwField =  new PasswordField();
 			//add nodes to layout
-			grid.add(sceneTitle, 0, 0, 2, 1); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
-			grid.add(userName, 0, 1);
-			grid.add(userTextField, 1, 1);
-			grid.add(pw, 0, 2);
-			grid.add(pwField, 1, 2);
+			grid.add(sceneTitle, 0, 0, 2, 2); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
 			grid.setGridLinesVisible(false); //gridLines for testing purpose
-			//approval button
-			Button btn =  new Button("Sign In");
+			//newEntry button
+			Button newBtn =  new Button("New Entry");
+			HBox newHBtn = new HBox(10);
+			newHBtn.setAlignment(Pos.CENTER);
+			newHBtn.getChildren().add(newBtn);
+			grid.add(newHBtn, 0, 4);
+			final Text newActionTarget = new Text();
+			grid.add(newActionTarget, 0, 6);
+			newBtn.setOnAction(event -> 
+			{
+				newActionTarget.setFill(Color.FIREBRICK);
+				newActionTarget.setText("Direct to newEntry");
+			});
+			//searchEntry button
+			Button btn =  new Button("Search Entry");
 			HBox hBtn = new HBox(10);
-			hBtn.setAlignment(Pos.BOTTOM_RIGHT);
+			hBtn.setAlignment(Pos.CENTER);
 			hBtn.getChildren().add(btn);
 			grid.add(hBtn, 1, 4);
-			final Text actiontarget = new Text();
-			grid.add(actiontarget, 1, 6);
+			final Text searchActionTarget = new Text();
+			grid.add(searchActionTarget, 1, 6);
 			btn.setOnAction(event -> 
 			{
-				actiontarget.setFill(Color.FIREBRICK);
-				actiontarget.setText("Sign In Button Pressed");
+				searchActionTarget.setFill(Color.FIREBRICK);
+				searchActionTarget.setText("Direct to searchEntry");
 			});
+
 			//final adding to layout
-			Scene scene = new Scene(grid, 300, 275);
+			Scene scene = new Scene(grid, 400, 400);
 			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Job Application Tracking System");
 			primaryStage.setScene(scene);
