@@ -23,7 +23,7 @@ public class Main extends Application
 			grid.setVgap(10);
 			grid.setPadding(new Insets(25, 25, 25, 25));
 			//nodes
-			Text sceneTitle = new Text("Please Login: ");
+			Text sceneTitle = new Text("Welcome!!!");
 			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 			Label userName = new Label("User Name: ");
 			TextField userTextField = new TextField();
@@ -35,7 +35,7 @@ public class Main extends Application
 			grid.add(userTextField, 1, 1);
 			grid.add(pw, 0, 2);
 			grid.add(pwField, 1, 2);
-			grid.setGridLinesVisible(true); //gridLines for testing purpose
+			grid.setGridLinesVisible(false); //gridLines for testing purpose
 			//approval button
 			Button btn =  new Button("Sign In");
 			HBox hBtn = new HBox(10);
@@ -51,6 +51,7 @@ public class Main extends Application
 			});
 			//final adding to layout
 			Scene scene = new Scene(grid, 300, 275);
+			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			primaryStage.setTitle("Job Application Tracking System");
 			primaryStage.setScene(scene);
 			primaryStage.show();
