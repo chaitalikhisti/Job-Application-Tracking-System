@@ -8,11 +8,13 @@ import javafx.scene.control.*; // for Button, Label, PasswordField, TextField
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.paint.Color;
 import javafx.scene.text.*; // for Font, FontWeight, Text
+import newEntry.*;
+import searchEntry.*;
 
 public class Main extends Application 
 {
 	@Override
-	public void start(Stage primaryStage) 
+	public void start(Stage welcomePageStage) 
 	{
 		try 
 		{
@@ -39,7 +41,7 @@ public class Main extends Application
 			newBtn.setOnAction(event -> 
 			{
 				newActionTarget.setFill(Color.FIREBRICK);
-				newActionTarget.setText("Direct to newEntry");
+				dataEntry.getDataEntryWindow(welcomePageStage);
 			});
 			//searchEntry button
 			Button btn =  new Button("Search Entry");
@@ -52,20 +54,26 @@ public class Main extends Application
 			btn.setOnAction(event -> 
 			{
 				searchActionTarget.setFill(Color.FIREBRICK);
-				searchActionTarget.setText("Direct to searchEntry");
+				searchData.getSearchWindow(welcomePageStage);
 			});
 
 			//final adding to layout
-			Scene scene = new Scene(grid, 400, 400);
-			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
-			primaryStage.setTitle("Job Application Tracking System");
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			Scene welcomeScene = new Scene(grid, 400, 400);
+			welcomeScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
+			welcomePageStage.setTitle("Job Application Tracking System");
+			welcomePageStage.setScene(welcomeScene);
+			welcomePageStage.show();
 		} 
 		catch(Exception e) 
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public static void getMainWindow(Stage someStage)
+	{
+		Main mainWindow = new Main();
+		mainWindow.start(someStage);
 	}
 	
 	public static void main(String[] args) 

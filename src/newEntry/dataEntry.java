@@ -1,5 +1,6 @@
 package newEntry;
 
+import application.Main;
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ public class dataEntry extends Application
 {
 
 	@Override
-	public void start(Stage primaryStage) 
+	public void start(Stage logPageStage) 
 	{
 		try 
 		{
@@ -92,22 +93,32 @@ public class dataEntry extends Application
 				}
 			});
 			//cancel button
-			Button btn =  new Button("CANCEL");
-			HBox hBtn = new HBox(10);
-			hBtn.setAlignment(Pos.CENTER);
-			hBtn.getChildren().add(btn);
-			grid.add(hBtn, 1, 6);
+			Button cancelBtn =  new Button("CANCEL");
+			HBox cancelHBtn = new HBox(10);
+			cancelHBtn.setAlignment(Pos.CENTER);
+			cancelHBtn.getChildren().add(cancelBtn);
+			grid.add(cancelHBtn, 1, 6);
+			cancelBtn.setOnAction(event ->
+			{
+				Main.getMainWindow(logPageStage);
+			});
 			//final adding to layout
-			Scene scene = new Scene(grid, 400, 400);
-			scene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
-			primaryStage.setTitle("Job Application Tracking System");
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			Scene dataEntryScene = new Scene(grid, 400, 400);
+			dataEntryScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
+			logPageStage.setTitle("Job Application Tracking System");
+			logPageStage.setScene(dataEntryScene);
+			logPageStage.show();
 		} 
 		catch(Exception e) 
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public static void getDataEntryWindow(Stage someStage)
+	{
+		dataEntry mainWindow = new dataEntry();
+		mainWindow.start(someStage);
 	}
 
 	public static void main(String[] args) 
