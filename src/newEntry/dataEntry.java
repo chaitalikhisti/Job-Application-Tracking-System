@@ -1,6 +1,6 @@
 package newEntry;
 
-import application.Main;
+import java.sql.*; // for Connection, Statment
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
 import javafx.stage.Stage;
@@ -9,34 +9,68 @@ import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.text.*; // for Font, FontWeight, Text
+import application.Main;
+import utilities.*;
 
 public class dataEntry extends Application 
 {
-
+	//declaring all components
+	/*
+	Connection conn = null;
+	Statement stmnt = null;
+	String dbURL, username, password;
+	*/
+	GridPane grid;
+	Text sceneTitle;
+	Label compName, posName, refNo, cityName, stateName;
+	TextField compTextField, posTextField, refNoTextField, cityNameTextField;
+	final ComboBox<String> stateNameComboBox = new ComboBox<String>();
+	Alert errorAlert, submitAlert;
+	Button submitBtn, cancelBtn;
+	HBox submitHBtn, cancelHBtn;
+	Scene dataEntryScene;
+	
 	@Override
 	public void start(Stage logPageStage) 
 	{
+		/*
+		dbURL = "jdbc:mysql://dbURL";
+	    username = "root";
+	    password = "pass";	
+	    */	
 		try 
 		{
+			/* --- DATABASE FUNCTIONALITY ---
+			conn = DriverManager.getConnection(dbURL, username, password); 
+	        if (conn != null) 
+	        {
+	        	System.out.println("Connection Successfull!!!");
+	        }
+	        else
+	        {
+	        	System.out.println("Connection Establishment Failed");
+	        }
+	        */
+	        
+			/* --- LAYOUT --- */
 			//grid layout
-			GridPane grid = new GridPane();
+			grid = new GridPane();
 			grid.setAlignment(Pos.CENTER);
 			grid.setHgap(10);
 			grid.setVgap(10);
 			grid.setPadding(new Insets(25, 25, 25, 25));
 			//nodes
-			Text sceneTitle = new Text("Enter Application Details : ");
+			sceneTitle = new Text("Enter Application Details : ");
 			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-			Label compName = new Label("Company Name : ");
-			TextField compTextField = new TextField();
-			Label posName = new Label("Position : ");
-			TextField posTextField = new TextField();
-			Label refNo = new Label("Reference No. : ");
-			TextField refNoTextField = new TextField();			
-			Label cityName = new Label("City : ");
-			TextField cityNameTextField = new TextField();
-			Label stateName = new Label("State : ");
-			final ComboBox<String> stateNameComboBox = new ComboBox<String>();
+			compName = new Label("Company Name : ");
+			compTextField = new TextField();
+			posName = new Label("Position : ");
+			posTextField = new TextField();
+			refNo = new Label("Reference No. : ");
+			refNoTextField = new TextField();			
+			cityName = new Label("City : ");
+			cityNameTextField = new TextField();
+			stateName = new Label("State : ");
 			stateNameComboBox.getItems().addAll
 			(
 				"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
@@ -61,17 +95,17 @@ public class dataEntry extends Application
 			grid.add(stateNameComboBox, 1, 5);
 			grid.setGridLinesVisible(false);
 			//dialog boxes for buttons
-			Alert errorAlert = new Alert(AlertType.ERROR);
+			errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setTitle("Error");
 			errorAlert.setHeaderText(null);
 			errorAlert.setContentText("All fields with * must be filled");
-			Alert submitAlert = new Alert(AlertType.CONFIRMATION);
+			submitAlert = new Alert(AlertType.CONFIRMATION);
 			submitAlert.setTitle("Successful!!!");
 			submitAlert.setHeaderText(null);
 			submitAlert.setContentText("Data successfully updated");
 			//submit button
-			Button submitBtn =  new Button("SUBMIT");
-			HBox submitHBtn = new HBox(10);
+			submitBtn =  new Button("SUBMIT");
+			submitHBtn = new HBox(10);
 			submitHBtn.setAlignment(Pos.BOTTOM_RIGHT);
 			submitHBtn.getChildren().add(submitBtn);
 			grid.add(submitHBtn, 0, 6);
@@ -84,6 +118,7 @@ public class dataEntry extends Application
 				else
 				{
 					submitAlert.showAndWait();
+					//dataEntryUtil.enterData(conn);
 					//clear all fields for next data entry
 					compTextField.clear();
 					posTextField.clear();
@@ -93,21 +128,31 @@ public class dataEntry extends Application
 				}
 			});
 			//cancel button
-			Button cancelBtn =  new Button("CANCEL");
-			HBox cancelHBtn = new HBox(10);
+			cancelBtn =  new Button("CANCEL");
+			cancelHBtn = new HBox(10);
 			cancelHBtn.setAlignment(Pos.CENTER);
 			cancelHBtn.getChildren().add(cancelBtn);
 			grid.add(cancelHBtn, 1, 6);
 			cancelBtn.setOnAction(event ->
 			{
 				Main.getMainWindow(logPageStage);
+				/*
+				try 
+				{
+					//conn.close();
+				} 
+				catch (SQLException e) 
+				{
+					e.printStackTrace();
+				}
+				*/
 			});
 			//final adding to layout
-			Scene dataEntryScene = new Scene(grid, 400, 400);
+			dataEntryScene = new Scene(grid, 400, 400);
 			dataEntryScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
 			logPageStage.setTitle("Job Application Tracking System");
 			logPageStage.setScene(dataEntryScene);
-			logPageStage.show();
+			logPageStage.show();			
 		} 
 		catch(Exception e) 
 		{
@@ -120,7 +165,7 @@ public class dataEntry extends Application
 		dataEntry mainWindow = new dataEntry();
 		mainWindow.start(someStage);
 	}
-
+	
 	public static void main(String[] args) 
 	{
 		launch(args);

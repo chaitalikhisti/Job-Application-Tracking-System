@@ -1,15 +1,17 @@
 package searchEntry;
 
-import application.Main;
+import java.sql.*;
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
 import javafx.stage.Stage;
-import newEntry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.text.*; // for Font, FontWeight, Text
+import newEntry.*;
+
+import application.Main;
 
 public class searchData extends Application 
 {
@@ -18,6 +20,7 @@ public class searchData extends Application
 	{
 		try
 		{
+			/* --- LAYOUT --- */
 			//grid layout
 			GridPane grid = new GridPane();
 			grid.setAlignment(Pos.CENTER);
