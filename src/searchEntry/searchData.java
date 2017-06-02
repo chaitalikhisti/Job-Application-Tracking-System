@@ -107,7 +107,8 @@ public class searchData extends Application
 					//search data in database
 					getWindows.getSearchResultsWindow(searchPageStage,radioSelectionString, searchTextField);
 					//clear all fields for next data entry
-					searchTextField.clear();					
+					searchTextField.clear();
+					searchSelection.selectToggle(null);
 				}
 			});
 			//cancel button
@@ -131,10 +132,5 @@ public class searchData extends Application
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main(String[] args) 
-	{
-		launch(args);
 	}
 }
