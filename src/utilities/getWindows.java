@@ -2,9 +2,12 @@ package utilities;
 
 import application.Main;
 import javafx.application.Application;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import newEntry.dataEntry;
 import searchEntry.searchData;
+import searchDisplay.displayEntries;
 
 public class getWindows extends Application 
 {
@@ -27,6 +30,13 @@ public class getWindows extends Application
 	{
 		searchData mainWindow = new searchData();
 		mainWindow.start(someStage);
+	}
+	
+	//method to load Search Results Stage
+	public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField)
+	{
+		displayEntries mainWindow = new displayEntries();
+		mainWindow.start(someStage, someString, someTextField);
 	}
 	
 	//add unimplemented method

@@ -1,19 +1,13 @@
-/* HAVE TO KEEP EITHER dataEntryUtil.java OR dataEntryUtilities.java */
-
 package utilities;
 
 import java.sql.*; // for Connection, Statement
-
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*; //for ComboBox, TextField
 
 public class dataEntryUtil 
 {
 	static Connection c = databaseConnection.establishConnection();
 	static Statement st = null;
 	static Statement st1 = null;
-	//static int appNo = 1;
 	static String compName, posName, refNo, cityName;
 	static String stateName;
 	

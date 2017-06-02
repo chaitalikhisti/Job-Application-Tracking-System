@@ -8,7 +8,6 @@ import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.text.*; // for Font, FontWeight, Text
-import application.Main;
 import utilities.*;
 
 public class dataEntry extends Application 
@@ -39,15 +38,15 @@ public class dataEntry extends Application
 			//nodes
 			sceneTitle = new Text("Enter Application Details : ");
 			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-			compName = new Label("Company Name : ");
+			compName = new Label("Company Name *: ");
 			compTextField = new TextField();
-			posName = new Label("Position : ");
+			posName = new Label("Position *: ");
 			posTextField = new TextField();
 			refNo = new Label("Reference No. : ");
 			refNoTextField = new TextField();			
-			cityName = new Label("City : ");
+			cityName = new Label("City *: ");
 			cityNameTextField = new TextField();
-			stateName = new Label("State : ");
+			stateName = new Label("State *: ");
 			stateNameComboBox.getItems().addAll
 			(
 				"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
