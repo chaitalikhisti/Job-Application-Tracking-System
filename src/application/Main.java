@@ -24,7 +24,7 @@ public class Main extends Application
 			grid.setPadding(new Insets(25, 25, 25, 25));
 			//nodes
 			Text sceneTitle = new Text("Welcome to the Application!!!");
-			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 25));
 			//add nodes to layout
 			grid.add(sceneTitle, 0, 0, 2, 2); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
 			grid.setGridLinesVisible(false); //gridLines for testing purpose
