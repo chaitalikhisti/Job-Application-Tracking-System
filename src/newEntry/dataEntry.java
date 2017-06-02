@@ -1,6 +1,5 @@
 package newEntry;
 
-import java.sql.*; // for Connection, Statment
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
 import javafx.stage.Stage;
@@ -15,11 +14,6 @@ import utilities.*;
 public class dataEntry extends Application 
 {
 	//declaring all components
-	/*
-	Connection conn = null;
-	Statement stmnt = null;
-	String dbURL, username, password;
-	*/
 	GridPane grid;
 	Text sceneTitle;
 	Label compName, posName, refNo, cityName, stateName;
@@ -33,25 +27,8 @@ public class dataEntry extends Application
 	@Override
 	public void start(Stage logPageStage) 
 	{
-		/*
-		dbURL = "jdbc:mysql://dbURL";
-	    username = "root";
-	    password = "pass";	
-	    */	
 		try 
 		{
-			/* --- DATABASE FUNCTIONALITY ---
-			conn = DriverManager.getConnection(dbURL, username, password); 
-	        if (conn != null) 
-	        {
-	        	System.out.println("Connection Successfull!!!");
-	        }
-	        else
-	        {
-	        	System.out.println("Connection Establishment Failed");
-	        }
-	        */
-	        
 			/* --- LAYOUT --- */
 			//grid layout
 			grid = new GridPane();
@@ -118,7 +95,8 @@ public class dataEntry extends Application
 				else
 				{
 					submitAlert.showAndWait();
-					//dataEntryUtil.enterData(conn);
+					//enter data in database
+					dataEntryUtil.enterData(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox);
 					//clear all fields for next data entry
 					compTextField.clear();
 					posTextField.clear();
@@ -135,17 +113,7 @@ public class dataEntry extends Application
 			grid.add(cancelHBtn, 1, 6);
 			cancelBtn.setOnAction(event ->
 			{
-				Main.getMainWindow(logPageStage);
-				/*
-				try 
-				{
-					//conn.close();
-				} 
-				catch (SQLException e) 
-				{
-					e.printStackTrace();
-				}
-				*/
+				getWindows.getMainWindow(logPageStage);
 			});
 			//final adding to layout
 			dataEntryScene = new Scene(grid, 400, 400);
@@ -158,16 +126,5 @@ public class dataEntry extends Application
 		{
 			e.printStackTrace();
 		}
-	}
-	
-	public static void getDataEntryWindow(Stage someStage)
-	{
-		dataEntry mainWindow = new dataEntry();
-		mainWindow.start(someStage);
-	}
-	
-	public static void main(String[] args) 
-	{
-		launch(args);
 	}
 }

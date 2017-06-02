@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.*; // for Font, FontWeight, Text
 import newEntry.*;
 import searchEntry.*;
+import utilities.getWindows;
 
 public class Main extends Application 
 {
@@ -41,7 +42,7 @@ public class Main extends Application
 			newBtn.setOnAction(event -> 
 			{
 				newActionTarget.setFill(Color.FIREBRICK);
-				dataEntry.getDataEntryWindow(welcomePageStage);
+				getWindows.getDataEntryWindow(welcomePageStage);
 			});
 			//searchEntry button
 			Button btn =  new Button("Search Entry");
@@ -54,7 +55,7 @@ public class Main extends Application
 			btn.setOnAction(event -> 
 			{
 				searchActionTarget.setFill(Color.FIREBRICK);
-				searchData.getSearchWindow(welcomePageStage);
+				getWindows.getSearchWindow(welcomePageStage);
 			});
 
 			//final adding to layout
@@ -69,13 +70,7 @@ public class Main extends Application
 			e.printStackTrace();
 		}
 	}
-	
-	public static void getMainWindow(Stage someStage)
-	{
-		Main mainWindow = new Main();
-		mainWindow.start(someStage);
-	}
-	
+		
 	public static void main(String[] args) 
 	{
 		launch(args);

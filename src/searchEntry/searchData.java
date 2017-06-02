@@ -10,6 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.text.*; // for Font, FontWeight, Text
 import newEntry.*;
+import utilities.getWindows;
 
 import application.Main;
 
@@ -81,7 +82,7 @@ public class searchData extends Application
 			grid.add(hBtn, 1, 7);
 			btn.setOnAction(event ->
 			{
-				Main.getMainWindow(searchPageStage);
+				getWindows.getMainWindow(searchPageStage);
 			});
 			//final adding to layout
 			Scene searchEntryScene = new Scene(grid, 400, 400);
@@ -96,12 +97,6 @@ public class searchData extends Application
 		}
 	}
 	
-	public static void getSearchWindow(Stage someStage)
-	{
-		searchData mainWindow = new searchData();
-		mainWindow.start(someStage);
-	}
-
 	public static void main(String[] args) 
 	{
 		launch(args);
