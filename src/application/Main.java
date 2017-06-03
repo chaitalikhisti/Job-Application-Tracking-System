@@ -4,13 +4,10 @@ import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.*; // for Button, Label, PasswordField, TextField
+import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.image.Image;
 import javafx.scene.layout.*; // for GridPane, HBox
-import javafx.scene.paint.Color;
 import javafx.scene.text.*; // for Font, FontWeight, Text
-import newEntry.*;
-import searchEntry.*;
 import utilities.getWindows;
 
 public class Main extends Application 
@@ -38,8 +35,8 @@ public class Main extends Application
 			sceneTitle = new Text("Job Application Tracking System");
 			sceneTitle.setId("mainSceneTitle");
 			//add nodes to layout
-			grid.add(invisibleText, 0, 0, 2, 4);
-			grid.add(sceneTitle, 0, 3, 2, 4); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
+			grid.add(invisibleText, 0, 0, 2, 4); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
+			grid.add(sceneTitle, 0, 3, 2, 4); 
 			grid.setGridLinesVisible(false); //gridLines for testing purpose
 			//newEntry button
 			newBtn =  new Button("New Entry");
@@ -48,11 +45,8 @@ public class Main extends Application
 			newHBtn.setAlignment(Pos.BOTTOM_RIGHT);
 			newHBtn.getChildren().add(newBtn);
 			grid.add(newHBtn, 0, 7);
-			//final Text newActionTarget = new Text();
-			//grid.add(newActionTarget, 0, 6);
 			newBtn.setOnAction(event -> 
 			{
-				//newActionTarget.setFill(Color.FIREBRICK);
 				getWindows.getDataEntryWindow(welcomePageStage);
 			});
 			//searchEntry button
@@ -62,14 +56,10 @@ public class Main extends Application
 			searchHBtn.setAlignment(Pos.BOTTOM_LEFT);
 			searchHBtn.getChildren().add(searchBtn);
 			grid.add(searchHBtn, 1, 7);
-			//final Text searchActionTarget = new Text();
-			//grid.add(searchActionTarget, 1, 6);
 			searchBtn.setOnAction(event -> 
 			{
-				//searchActionTarget.setFill(Color.FIREBRICK);
 				getWindows.getSearchWindow(welcomePageStage);
 			});
-
 			//final adding to layout
 			welcomeScene = new Scene(grid, 800, 600);
 			welcomeScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());

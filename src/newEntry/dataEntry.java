@@ -16,9 +16,10 @@ public class dataEntry extends Application
 {
 	//declaring all components
 	GridPane grid;
-	Text sceneTitle;
-	Label compName, posName, refNo, cityName, stateName;
+	Text sceneTitle, invisibleText;
+	Label compName, posName, refNo, cityName, stateName, colonText1, colonText2, colonText3, colonText4, colonText5;
 	TextField compTextField, posTextField, refNoTextField, cityNameTextField;
+	String asterisk, colon;
 	final ComboBox<String> stateNameComboBox = new ComboBox<String>();
 	Alert errorAlert, submitAlert;
 	Button submitBtn, cancelBtn;
@@ -28,27 +29,46 @@ public class dataEntry extends Application
 	@Override
 	public void start(Stage logPageStage) 
 	{
+		asterisk = "*";
+		colon = ":";
 		try 
 		{
 			/* --- LAYOUT --- */
 			//grid layout
 			grid = new GridPane();
-			grid.setAlignment(Pos.CENTER);
+			grid.setAlignment(Pos.TOP_CENTER);
 			grid.setHgap(10);
 			grid.setVgap(10);
 			grid.setPadding(new Insets(25, 25, 25, 25));
+			ColumnConstraints col1 = new ColumnConstraints();
+		    col1.setPercentWidth(25);
+		    ColumnConstraints col2 = new ColumnConstraints();
+		    col2.setPercentWidth(5);
+		    ColumnConstraints col3 = new ColumnConstraints();
+		    col3.setPercentWidth(50);
 			//nodes
-			sceneTitle = new Text("Enter Application Details : ");
-			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-			compName = new Label("Company Name *: ");
+			sceneTitle = new Text("               Application Details");
+			sceneTitle.setId("dataEntrySceneTitle");
+			invisibleText = new Text("");
+			invisibleText.setId("invisibleText");
+			compName = new Label("Company Name");
+			colonText1 = new Label(asterisk+colon);
 			compTextField = new TextField();
-			posName = new Label("Position *: ");
+			compTextField.setPrefSize(300, 35);
+			posName = new Label("Position");
+			colonText2 = new Label(asterisk+colon);
 			posTextField = new TextField();
-			refNo = new Label("Reference No. : ");
-			refNoTextField = new TextField();			
-			cityName = new Label("City *: ");
+			posTextField.setPrefSize(300, 35);
+			refNo = new Label("Application ID");
+			colonText3 = new Label("  " +colon);
+			refNoTextField = new TextField();	
+			refNoTextField.setPrefSize(300, 35);
+			cityName = new Label("City");
+			colonText4 = new Label(asterisk+colon);
 			cityNameTextField = new TextField();
-			stateName = new Label("State *: ");
+			cityNameTextField.setPrefSize(300, 35);
+			stateName = new Label("State");
+			colonText5 = new Label(asterisk+colon);
 			stateNameComboBox.getItems().addAll
 			(
 				"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
@@ -59,18 +79,26 @@ public class dataEntry extends Application
 				"WY" 
 	        ); 
 			stateNameComboBox.setValue("Select State");
+			stateNameComboBox.setPrefSize(400, 35);
 			//add nodes to layout
+			grid.getColumnConstraints().addAll(col1,col2,col3);
 			grid.add(sceneTitle, 0, 0, 2, 1);
-			grid.add(compName, 0, 1);
-			grid.add(compTextField, 1, 1);
-			grid.add(posName, 0, 2);
-			grid.add(posTextField, 1, 2);
-			grid.add(refNo, 0, 3);
-			grid.add(refNoTextField, 1, 3);
-			grid.add(cityName, 0, 4);
-			grid.add(cityNameTextField, 1, 4);
-			grid.add(stateName, 0, 5);
-			grid.add(stateNameComboBox, 1, 5);
+			grid.add(invisibleText, 0, 1, 2, 1);
+			grid.add(compName, 0, 2);
+			grid.add(colonText1, 1, 2);
+			grid.add(compTextField, 2, 2);
+			grid.add(posName, 0, 3);
+			grid.add(colonText2, 1, 3);
+			grid.add(posTextField, 2, 3);
+			grid.add(refNo, 0, 4);
+			grid.add(colonText3, 1, 4);
+			grid.add(refNoTextField, 2, 4);
+			grid.add(cityName, 0, 5);
+			grid.add(colonText4, 1, 5);
+			grid.add(cityNameTextField, 2, 5);
+			grid.add(stateName, 0, 6);
+			grid.add(colonText5, 1, 6);
+			grid.add(stateNameComboBox, 2, 6);
 			grid.setGridLinesVisible(false);
 			//dialog boxes for buttons
 			errorAlert = new Alert(AlertType.ERROR);
@@ -84,9 +112,10 @@ public class dataEntry extends Application
 			//submit button
 			submitBtn =  new Button("SUBMIT");
 			submitHBtn = new HBox(10);
+			submitHBtn.setId("submitHBtn");
 			submitHBtn.setAlignment(Pos.BOTTOM_RIGHT);
 			submitHBtn.getChildren().add(submitBtn);
-			grid.add(submitHBtn, 0, 6);
+			grid.add(submitHBtn, 0, 7, 2, 1);
 			submitBtn.setOnAction(event -> 
 			{
 				if (compTextField.getText().isEmpty() || posTextField.getText().isEmpty() || cityNameTextField.getText().isEmpty() || stateNameComboBox.getSelectionModel().isEmpty())
@@ -109,9 +138,10 @@ public class dataEntry extends Application
 			//cancel button
 			cancelBtn =  new Button("CANCEL");
 			cancelHBtn = new HBox(10);
+			cancelHBtn.setId("cancelHBtn");
 			cancelHBtn.setAlignment(Pos.CENTER);
 			cancelHBtn.getChildren().add(cancelBtn);
-			grid.add(cancelHBtn, 1, 6);
+			grid.add(cancelHBtn, 2, 7);
 			cancelBtn.setOnAction(event ->
 			{
 				getWindows.getMainWindow(logPageStage);

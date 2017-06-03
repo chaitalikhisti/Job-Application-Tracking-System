@@ -8,9 +8,11 @@
 
 .label
 {
-	-fx-font-size:12px;
+	-fx-font-size:18px;
 	-fx-font-weight: bold;
+	-fx-font-family:"Times New Roman";
 	-fx-text-fill: #0E1D33;
+	-fx-padding: 10px 10px;
 }
 
 .button 
@@ -61,6 +63,33 @@
 }
 
 #searchHBtn
+{
+	-fx-padding: 50px 100px;
+}
+
+/* Data Entry Window Styling */
+#dataEntrySceneTitle
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:40px;
+	-fx-font-weight: bold;
+}
+
+#invisibleText
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:40px;
+	-fx-font-weight: bold;
+}
+
+#submitHBtn
+{
+	-fx-padding: 50px 50px;
+}
+
+#cancelHBtn
 {
 	-fx-padding: 50px 100px;
 }
