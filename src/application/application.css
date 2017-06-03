@@ -1,5 +1,11 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+/* General Styling */
+.root
+{
+	-fx-background-image: url("background.png");
+}
+
 .label
 {
 	-fx-font-size:12px;
@@ -7,17 +13,54 @@
 	-fx-text-fill: #0E1D33;
 }
 
+.button 
+{
+    -fx-text-fill:black;
+    -fx-font-size:20px;
+    -fx-font-family:"Times New Roman";
+    -fx-font-weight:bold;
+    /*-fx-background-color:linear-gradient(#61a2b1,#2A5058);   */ 
+    -fx-background-color: transparent;    
+    -fx-border-color: black;
+    -fx-border-radius: 5.0;
+}
+
+.button:hover
+{
+	-fx-text-fill:white;
+	-fx-border-color: white;
+}
+
+/*
 #actiontarget 
 {
     -fx-fill:WHITE;
     -fx-font-weight:bold;
     
 }
-.button 
+*/
+
+/* Main Window Styling */
+#mainSceneTitle
 {
-    -fx-text-fill:white;
-    -fx-font-family:"Arial Narrow";
-    -fx-font-weight:bold;
-    -fx-background-color:linear-gradient(#61a2b1,#2A5058);
-    
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:50px;
+	-fx-font-weight: bold;
+	-fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+#invisibleText
+{
+	-fx-text-fill:white;
+	-fx-font-size: 80px;
+}
+
+#newHBtn
+{
+	-fx-padding: 50px 100px;
+}
+
+#searchHBtn
+{
+	-fx-padding: 50px 100px;
 }

@@ -1,11 +1,13 @@
 package searchEntry;
 
+import application.Main;
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.text.*; // for Font, FontWeight, Text
 import newEntry.*;
@@ -122,9 +124,11 @@ public class searchData extends Application
 				getWindows.getMainWindow(searchPageStage);
 			});
 			//final adding to layout
-			searchEntryScene = new Scene(grid, 400, 400);
-			searchEntryScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
+			searchEntryScene = new Scene(grid, 800, 600);
+			//searchEntryScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
+			searchEntryScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			searchPageStage.setTitle("Job Application Tracking System");
+			searchPageStage.getIcons().add(new Image("file:hireme.png"));
 			searchPageStage.setScene(searchEntryScene);
 			searchPageStage.show();
 		}

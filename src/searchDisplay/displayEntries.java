@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import application.Main;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -14,13 +15,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.image.Image;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -29,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import newEntry.dataEntry;
 import utilities.databaseConnection;
+import utilities.getWindows;
 
 public class displayEntries extends Application 
 {
@@ -37,12 +42,12 @@ public class displayEntries extends Application
 	private ObservableList<ObservableList> data;
 	final VBox vBox  = new VBox();
 	Scene displayScene;
+	Button cancelBtn;
+	HBox cancelHBtn;
 	Alert errorAlert;
 	Connection c = databaseConnection.establishConnection();
 	Statement st = null;
-	String searchTerm;
-	
-	
+	String searchTerm;	
 	
 	public void start(Stage displayPageStage, String searchSelectionString, TextField searchTextField) 
 	{
@@ -54,6 +59,15 @@ public class displayEntries extends Application
 			vBox.setPadding(new Insets(25, 25, 25, 25));
 			//nodes
 			sceneTitle = new Text("Search Results: ");
+			//cancel button
+			cancelBtn =  new Button("OK");
+			cancelHBtn = new HBox(10);
+			cancelHBtn.setAlignment(Pos.CENTER);
+			cancelHBtn.getChildren().add(cancelBtn);
+			cancelBtn.setOnAction(event ->
+			{
+				getWindows.getMainWindow(displayPageStage);
+			});
 			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 			errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setTitle("Error");
@@ -70,7 +84,7 @@ public class displayEntries extends Application
 			*/
 			for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++)
 			{
-                final int j = i;                
+                final int j = i; 
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
                 col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList,String>,ObservableValue<String>>()
                 {                    
@@ -79,7 +93,6 @@ public class displayEntries extends Application
                         return new SimpleStringProperty(param.getValue().get(j).toString());                        
                     }                    
                 });
-
                 dispTable.getColumns().addAll(col);
 			}
 			//data rows dynamic
@@ -105,12 +118,14 @@ public class displayEntries extends Application
 				while(rs.next());
 				dispTable.setItems(data);
 				//add nodes to layout container
-				vBox.getChildren().addAll(sceneTitle, dispTable);
+				vBox.getChildren().addAll(sceneTitle, dispTable, cancelHBtn);
 				//final adding to layout
-				displayScene = new Scene(new Group());
+				displayScene = new Scene(new Group(), 800, 600);
 				((Group) displayScene.getRoot()).getChildren().addAll(vBox);
-				displayScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
+				//displayScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
+				displayScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 				displayPageStage.setTitle("Job Application Tracking System");
+				displayPageStage.getIcons().add(new Image("file:hireme.png"));
 				displayPageStage.setScene(displayScene);
 				displayPageStage.show();
 			}			
