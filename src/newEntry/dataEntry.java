@@ -9,7 +9,7 @@ import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*; // for GridPane, HBox
-import javafx.scene.text.*; // for Font, FontWeight, Text
+import javafx.scene.text.*; // for Text
 import utilities.*;
 
 public class dataEntry extends Application 
@@ -148,7 +148,6 @@ public class dataEntry extends Application
 			});
 			//final adding to layout
 			dataEntryScene = new Scene(grid, 800, 600);
-			//dataEntryScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
 			dataEntryScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			logPageStage.setTitle("Job Application Tracking System");
 			logPageStage.getIcons().add(new Image("file:hireme.png"));

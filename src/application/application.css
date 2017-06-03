@@ -1,6 +1,8 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+/* 
+ * 		CSS FOR ALL THE APPLICATION WINDOWS
+ */
 
-/* General Styling */
+/* GENERAL STYLING */
 .root
 {
 	-fx-background-image: url("background.png");
@@ -33,16 +35,7 @@
 	-fx-border-color: white;
 }
 
-/*
-#actiontarget 
-{
-    -fx-fill:WHITE;
-    -fx-font-weight:bold;
-    
-}
-*/
-
-/* Main Window Styling */
+/* MAIN WINDOW STYLING */
 #mainSceneTitle
 {
 	-fx-font-family: "Times New Roman";
@@ -67,7 +60,7 @@
 	-fx-padding: 50px 100px;
 }
 
-/* Data Entry Window Styling */
+/* DATA ENTRY WINDOW STYLING */
 #dataEntrySceneTitle
 {
 	-fx-text-alignment: center;
@@ -92,4 +85,36 @@
 #cancelHBtn
 {
 	-fx-padding: 50px 100px;
+}
+
+.text-field
+{
+	-fx-font-size:15px;
+	-fx-font-family: "Times New Roman";
+}
+
+.combo-box
+{
+	-fx-font-size:15px;
+	-fx-font-family: "Times New Roman";
+}
+
+/* DATA SEARCH WINDOW STYLING */
+.radio-button
+{
+	-fx-font-size:15px;
+	-fx-font-weight: bold;
+	-fx-font-family:"Times New Roman";
+	-fx-text-fill: #0E1D33;
+	-fx-padding: 10px 10px;
+}
+
+#searchDataHBtn
+{
+	-fx-padding: 30px 50px;
+}
+
+#searchDataCancelHBtn
+{
+	-fx-padding: 30px 100px;
 }

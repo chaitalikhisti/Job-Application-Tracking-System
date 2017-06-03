@@ -20,7 +20,7 @@ public class searchData extends Application
 	{
 		//declaring all components
 		GridPane grid;
-		Text sceneTitle;
+		Text sceneTitle, invisibleText;
 		Label searchBy, searchFor;
 		final ToggleGroup searchSelection = new ToggleGroup();
 		RadioButton cn, pos, city, state, refNo;
@@ -34,13 +34,19 @@ public class searchData extends Application
 		{
 			//grid layout
 			grid = new GridPane();
-			grid.setAlignment(Pos.CENTER);
+			grid.setAlignment(Pos.TOP_CENTER);
 			grid.setHgap(10);
 			grid.setVgap(10);
 			grid.setPadding(new Insets(25, 25, 25, 25));
+			ColumnConstraints col1 = new ColumnConstraints();
+		    col1.setPercentWidth(30);
+		    ColumnConstraints col2 = new ColumnConstraints();
+		    col2.setPercentWidth(50);
 			//nodes
-			sceneTitle = new Text("Enter Search Details : ");
-			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+			sceneTitle = new Text("               Data Search Details");
+			sceneTitle.setId("dataEntrySceneTitle");
+			invisibleText = new Text("");
+			invisibleText.setId("invisibleText");
 			searchBy = new Label("SEARCH BY: ");
 			cn = new RadioButton("Company Name");
 			cn.setToggleGroup(searchSelection);
@@ -50,16 +56,19 @@ public class searchData extends Application
 			city.setToggleGroup(searchSelection);
 			state = new RadioButton("State");
 			state.setToggleGroup(searchSelection);
-			refNo = new RadioButton("Reference No.");
+			refNo = new RadioButton("Application No.");
 			refNo.setToggleGroup(searchSelection);
-			searchFor = new Label("Search For : ");
+			searchFor = new Label("SEARCH FOR : ");
 			searchTextField = new TextField();
 			//add nodes to layout
+			grid.getColumnConstraints().addAll(col1,col2);
 			grid.add(sceneTitle, 0, 0, 2, 1);
-			grid.add(searchBy, 0, 1, 2, 1);
-			grid.add(cn, 0, 2); grid.add(pos, 0, 3); grid.add(city, 0, 4); grid.add(state, 0, 5); grid.add(refNo, 0, 6);
-			grid.add(searchFor, 0, 7);
-			grid.add(searchTextField, 1, 7);
+			grid.add(invisibleText, 0, 1, 2, 1);
+			grid.add(searchBy, 0, 2, 2, 1);
+			grid.add(cn, 0, 3); grid.add(pos, 0, 4); grid.add(city, 0, 5); grid.add(state, 0, 6); grid.add(refNo, 0, 7);
+			grid.add(searchFor, 0, 8);
+			grid.add(searchTextField, 1, 8);
+			grid.setGridLinesVisible(false);
 			//dialog boxes for buttons
 			errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setTitle("Error");
@@ -68,9 +77,10 @@ public class searchData extends Application
 			//submit button
 			searchBtn =  new Button("SEARCH");
 			searchHBtn = new HBox(10);
+			searchHBtn.setId("searchDataHBtn");
 			searchHBtn.setAlignment(Pos.BOTTOM_RIGHT);
 			searchHBtn.getChildren().add(searchBtn);
-			grid.add(searchHBtn, 0, 8);
+			grid.add(searchHBtn, 0, 9);
 			searchBtn.setOnAction(event -> 
 			{
 				if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty())
@@ -116,9 +126,10 @@ public class searchData extends Application
 			//cancel button
 			btn =  new Button("CANCEL");
 			hBtn = new HBox(10);
+			hBtn.setId("searchDataCancelHBtn");
 			hBtn.setAlignment(Pos.CENTER);
 			hBtn.getChildren().add(btn);
-			grid.add(hBtn, 1, 8);
+			grid.add(hBtn, 1, 9);
 			btn.setOnAction(event ->
 			{
 				getWindows.getMainWindow(searchPageStage);
