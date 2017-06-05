@@ -9,8 +9,7 @@ import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*; // for GridPane, HBox
-import javafx.scene.text.*; // for Font, FontWeight, Text
-import newEntry.*;
+import javafx.scene.text.*; // for Text
 import utilities.*; //for getWindows, searchEntryUtil
 
 public class searchData extends Application 
@@ -20,10 +19,10 @@ public class searchData extends Application
 	{
 		//declaring all components
 		GridPane grid;
-		Text sceneTitle, invisibleText;
+		Text sceneTitle;
 		Label searchBy, searchFor;
 		final ToggleGroup searchSelection = new ToggleGroup();
-		RadioButton cn, pos, city, state, refNo;
+		RadioButton dt, cn, pos, city, state, refNo;
 		TextField searchTextField;
 		Alert errorAlert;
 		Button searchBtn, btn;
@@ -44,10 +43,10 @@ public class searchData extends Application
 		    col2.setPercentWidth(50);
 			//nodes
 			sceneTitle = new Text("               Data Search Details");
-			sceneTitle.setId("dataEntrySceneTitle");
-			invisibleText = new Text("");
-			invisibleText.setId("invisibleText");
+			sceneTitle.setId("dataSearchSceneTitle");
 			searchBy = new Label("SEARCH BY: ");
+			dt = new RadioButton("Date");
+			dt.setToggleGroup(searchSelection);
 			cn = new RadioButton("Company Name");
 			cn.setToggleGroup(searchSelection);
 			pos = new RadioButton("Position");
@@ -63,9 +62,9 @@ public class searchData extends Application
 			//add nodes to layout
 			grid.getColumnConstraints().addAll(col1,col2);
 			grid.add(sceneTitle, 0, 0, 2, 1);
-			grid.add(invisibleText, 0, 1, 2, 1);
-			grid.add(searchBy, 0, 2, 2, 1);
-			grid.add(cn, 0, 3); grid.add(pos, 0, 4); grid.add(city, 0, 5); grid.add(state, 0, 6); grid.add(refNo, 0, 7);
+			grid.add(searchBy, 0, 1, 2, 1);
+			grid.add(dt, 0, 2); grid.add(cn, 0, 3); grid.add(pos, 0, 4); 
+			grid.add(city, 0, 5); grid.add(state, 0, 6); grid.add(refNo, 0, 7);
 			grid.add(searchFor, 0, 8);
 			grid.add(searchTextField, 1, 8);
 			grid.setGridLinesVisible(false);
@@ -92,9 +91,13 @@ public class searchData extends Application
 					//getting toggle selection
 					String radioSelectionString = "";
 					RadioButton selectedRadioButton = (RadioButton) searchSelection.getSelectedToggle();
-					if (selectedRadioButton == cn)
+					if (selectedRadioButton == dt)
 					{
-						radioSelectionString = "Company Name";
+						radioSelectionString = "Date";
+					}
+					else if (selectedRadioButton == cn)
+					{
+						radioSelectionString = "Company";
 					}
 					else if (selectedRadioButton == pos)
 					{
@@ -136,7 +139,6 @@ public class searchData extends Application
 			});
 			//final adding to layout
 			searchEntryScene = new Scene(grid, 800, 600);
-			//searchEntryScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
 			searchEntryScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 			searchPageStage.setTitle("Job Application Tracking System");
 			searchPageStage.getIcons().add(new Image("file:hireme.png"));

@@ -37,7 +37,7 @@ import utilities.getWindows;
 
 public class displayEntries extends Application 
 {
-	Text sceneTitle;
+	Text sceneTitle, invisibleText;
 	private TableView dispTable = new TableView();
 	private ObservableList<ObservableList> data;
 	final VBox vBox  = new VBox();
@@ -57,11 +57,15 @@ public class displayEntries extends Application
 			//layout container
 			vBox.setSpacing(5);
 			vBox.setPadding(new Insets(25, 25, 25, 25));
+			vBox.setAlignment(Pos.TOP_CENTER);
 			//nodes
 			sceneTitle = new Text("Search Results: ");
+			sceneTitle.setId("dataDisplaySceneTitle");
+			invisibleText = new Text("");
+			invisibleText.setId("invisibleText3");
 			//cancel button
 			cancelBtn =  new Button("OK");
-			cancelHBtn = new HBox(10);
+			cancelHBtn = new HBox(20);
 			cancelHBtn.setAlignment(Pos.CENTER);
 			cancelHBtn.getChildren().add(cancelBtn);
 			cancelBtn.setOnAction(event ->
@@ -117,12 +121,12 @@ public class displayEntries extends Application
 				}
 				while(rs.next());
 				dispTable.setItems(data);
+				dispTable.setPrefSize(700, 300);
 				//add nodes to layout container
-				vBox.getChildren().addAll(sceneTitle, dispTable, cancelHBtn);
+				vBox.getChildren().addAll(sceneTitle, invisibleText, dispTable, cancelHBtn);
 				//final adding to layout
 				displayScene = new Scene(new Group(), 800, 600);
 				((Group) displayScene.getRoot()).getChildren().addAll(vBox);
-				//displayScene.getStylesheets().add(dataEntry.class.getResource("dataEntryCSS.css").toExternalForm());
 				displayScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 				displayPageStage.setTitle("Job Application Tracking System");
 				displayPageStage.getIcons().add(new Image("file:hireme.png"));

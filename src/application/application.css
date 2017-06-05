@@ -99,7 +99,28 @@
 	-fx-font-family: "Times New Roman";
 }
 
+.date-picker-popup 
+{
+    -fx-pref-width: 325.0;
+}
+
 /* DATA SEARCH WINDOW STYLING */
+#dataSearchSceneTitle
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:40px;
+	-fx-font-weight: bold;
+}
+
+#invisibleText2
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:40px;
+	-fx-font-weight: bold;
+}
+
 .radio-button
 {
 	-fx-font-size:15px;
@@ -118,3 +139,21 @@
 {
 	-fx-padding: 30px 100px;
 }
+
+/* DATA DISPLAY WINDOW STYLING */
+#dataDisplaySceneTitle
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:40px;
+	-fx-font-weight: bold;
+}
+
+#invisibleText3
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:40px;
+	-fx-font-weight: bold;
+}
+

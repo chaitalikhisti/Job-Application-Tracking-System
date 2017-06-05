@@ -1,5 +1,8 @@
 package newEntry;
 
+import java.time.LocalDate;
+import java.util.Locale;
+
 import application.Main;
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
@@ -17,11 +20,13 @@ public class dataEntry extends Application
 	//declaring all components
 	GridPane grid;
 	Text sceneTitle, invisibleText;
-	Label compName, posName, refNo, cityName, stateName, colonText1, colonText2, colonText3, colonText4, colonText5;
-	TextField compTextField, posTextField, refNoTextField, cityNameTextField;
+	Label compName, posName, refNo, cityName, stateName, commentName, dateName;
+	Label colonText1, colonText2, colonText3, colonText4, colonText5, colonText6, colonText7;
+	TextField compTextField, posTextField, refNoTextField, cityNameTextField, commentNameTextField;
 	String asterisk, colon;
 	final ComboBox<String> stateNameComboBox = new ComboBox<String>();
-	Alert errorAlert, submitAlert;
+	DatePicker chooseDate;
+	Alert errorAlert, errorAlert1, submitAlert;
 	Button submitBtn, cancelBtn;
 	HBox submitHBtn, cancelHBtn;
 	Scene dataEntryScene;
@@ -80,6 +85,15 @@ public class dataEntry extends Application
 	        ); 
 			stateNameComboBox.setValue("Select State");
 			stateNameComboBox.setPrefSize(400, 35);
+			commentName = new Label("Comment");
+			colonText6 = new Label("  " +colon);
+			commentNameTextField = new TextField();
+			commentNameTextField.setPrefSize(300, 35);
+			dateName = new Label("Application Date");
+			colonText7 = new Label(" "+colon);
+			chooseDate = new DatePicker();
+			chooseDate.setShowWeekNumbers(true);
+			chooseDate.setPrefSize(400, 35);
 			//add nodes to layout
 			grid.getColumnConstraints().addAll(col1,col2,col3);
 			grid.add(sceneTitle, 0, 0, 2, 1);
@@ -99,12 +113,22 @@ public class dataEntry extends Application
 			grid.add(stateName, 0, 6);
 			grid.add(colonText5, 1, 6);
 			grid.add(stateNameComboBox, 2, 6);
+			grid.add(dateName, 0, 7);
+			grid.add(colonText7, 1, 7);
+			grid.add(chooseDate, 2, 7);
+			grid.add(commentName, 0, 8);
+			grid.add(colonText6, 1, 8);
+			grid.add(commentNameTextField, 2, 8);
 			grid.setGridLinesVisible(false);
 			//dialog boxes for buttons
 			errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setTitle("Error");
 			errorAlert.setHeaderText(null);
 			errorAlert.setContentText("All fields with * must be filled");
+			errorAlert1 = new Alert(AlertType.ERROR);
+			errorAlert1.setTitle("Error");
+			errorAlert1.setHeaderText(null);
+			errorAlert1.setContentText("A valid record for this entry already exists");
 			submitAlert = new Alert(AlertType.CONFIRMATION);
 			submitAlert.setTitle("Successful!!!");
 			submitAlert.setHeaderText(null);
@@ -115,7 +139,7 @@ public class dataEntry extends Application
 			submitHBtn.setId("submitHBtn");
 			submitHBtn.setAlignment(Pos.BOTTOM_RIGHT);
 			submitHBtn.getChildren().add(submitBtn);
-			grid.add(submitHBtn, 0, 7, 2, 1);
+			grid.add(submitHBtn, 0, 9, 2, 1);
 			submitBtn.setOnAction(event -> 
 			{
 				if (compTextField.getText().isEmpty() || posTextField.getText().isEmpty() || cityNameTextField.getText().isEmpty() || stateNameComboBox.getSelectionModel().isEmpty())
@@ -124,15 +148,29 @@ public class dataEntry extends Application
 				}
 				else
 				{
-					submitAlert.showAndWait();
-					//enter data in database
-					dataEntryUtil.enterData(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox);
-					//clear all fields for next data entry
-					compTextField.clear();
-					posTextField.clear();
-					refNoTextField.clear();
-					cityNameTextField.clear();
-					stateNameComboBox.setValue("Select State");
+					if (chooseDate.getValue() == null)
+					{
+						chooseDate.setValue(LocalDate.now());
+					}
+					else
+					{
+						//check and enter data in database
+						if (dataEntryUtil.enterData(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox, chooseDate))
+						{
+							submitAlert.showAndWait();
+							//clear all fields for next data entry
+							compTextField.clear();
+							posTextField.clear();
+							refNoTextField.clear();
+							cityNameTextField.clear();
+							stateNameComboBox.setValue("Select State");
+							chooseDate.setValue(null);
+						}
+						else
+						{
+							errorAlert1.showAndWait();
+						}		
+					}			
 				}
 			});
 			//cancel button
@@ -141,7 +179,7 @@ public class dataEntry extends Application
 			cancelHBtn.setId("cancelHBtn");
 			cancelHBtn.setAlignment(Pos.CENTER);
 			cancelHBtn.getChildren().add(cancelBtn);
-			grid.add(cancelHBtn, 2, 7);
+			grid.add(cancelHBtn, 2, 9);
 			cancelBtn.setOnAction(event ->
 			{
 				getWindows.getMainWindow(logPageStage);
