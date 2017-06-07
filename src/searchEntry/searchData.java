@@ -24,6 +24,7 @@ public class searchData extends Application
 		final ToggleGroup searchSelection = new ToggleGroup();
 		RadioButton dt, cn, pos, city, state, refNo;
 		TextField searchTextField;
+		final DatePicker chooseDate = new DatePicker();;
 		Alert errorAlert;
 		Button searchBtn, btn;
 		HBox searchHBtn, hBtn;
@@ -59,6 +60,8 @@ public class searchData extends Application
 			refNo.setToggleGroup(searchSelection);
 			searchFor = new Label("SEARCH FOR : ");
 			searchTextField = new TextField();
+			chooseDate.setShowWeekNumbers(true);
+			chooseDate.setPrefWidth(400);
 			//add nodes to layout
 			grid.getColumnConstraints().addAll(col1,col2);
 			grid.add(sceneTitle, 0, 0, 2, 1);
@@ -74,6 +77,57 @@ public class searchData extends Application
 			errorAlert.setHeaderText(null);
 			errorAlert.setContentText("All fields with * must be filled");
 			//submit button
+			dt.setOnAction(event ->
+			{
+				// grid.getChildren().remove(searchTextField);
+				 //grid.add(chooseDate, 1, 8);
+				 searchTextField.setPromptText("YYYY-MM-DD format");
+			});
+			cn.setOnAction(event ->
+			{
+				if (grid.getChildren().contains(chooseDate))
+				{
+					grid.getChildren().remove(chooseDate);
+					grid.add(searchTextField, 1, 8);
+					searchTextField.setPromptText("Ex. Google");
+				}
+			});
+			pos.setOnAction(event ->
+			{
+				if (grid.getChildren().contains(chooseDate))
+				{
+					grid.getChildren().remove(chooseDate);
+					grid.add(searchTextField, 1, 8);
+				}
+				searchTextField.setPromptText("Ex. Software Engineer");
+			});
+			city.setOnAction(event ->
+			{
+				if (grid.getChildren().contains(chooseDate))
+				{
+					grid.getChildren().remove(chooseDate);
+					grid.add(searchTextField, 1, 8);
+				}
+				searchTextField.setPromptText("Ex. New York");
+			});
+			state.setOnAction(event ->
+			{
+				if (grid.getChildren().contains(chooseDate))
+				{
+					grid.getChildren().remove(chooseDate);
+					grid.add(searchTextField, 1, 8);
+				}
+				searchTextField.setPromptText("Ex. IL for Illinois");
+			});
+			refNo.setOnAction(event ->
+			{
+				if (grid.getChildren().contains(chooseDate))
+				{
+					grid.getChildren().remove(chooseDate);
+					grid.add(searchTextField, 1, 8);
+				}
+				searchTextField.setPromptText("Ex. #177714B");
+			});
 			searchBtn =  new Button("SEARCH");
 			searchHBtn = new HBox(10);
 			searchHBtn.setId("searchDataHBtn");
@@ -82,7 +136,7 @@ public class searchData extends Application
 			grid.add(searchHBtn, 0, 9);
 			searchBtn.setOnAction(event -> 
 			{
-				if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty())
+				if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty() && chooseDate.getValue() == null)
 				{
 					errorAlert.showAndWait();
 				}
@@ -120,7 +174,7 @@ public class searchData extends Application
 						errorAlert.showAndWait();
 					}
 					//search data in database
-					getWindows.getSearchResultsWindow(searchPageStage,radioSelectionString, searchTextField);
+					getWindows.getSearchResultsWindow(searchPageStage,radioSelectionString, searchTextField, chooseDate);
 					//clear all fields for next data entry
 					searchTextField.clear();
 					searchSelection.selectToggle(null);

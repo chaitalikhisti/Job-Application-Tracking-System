@@ -11,14 +11,14 @@ public class dataEntryUtil
 	static Statement st = null;
 	static Statement st1 = null;
 	static Statement st2 = null;
-	static String compName, posName, cityName, stateName;
+	static String compName, posName, cityName, stateName, commentDetails;
 	static LocalDate date;
 	static String refNo = null;
 	static Boolean entryCondition, entryState;
 	
 	//get values from data entry textfields
 	public static void getParameters(TextField someCompTextField, TextField somePosTextField, TextField someRefTextField,
-			TextField someCityTextField, ComboBox<String> someStateComboBox, DatePicker someDate)
+			TextField someCityTextField, ComboBox<String> someStateComboBox, DatePicker someDate, TextField someCommentTextField)
 	{
 		compName = someCompTextField.getText();
 		posName = somePosTextField.getText();
@@ -26,6 +26,7 @@ public class dataEntryUtil
 		cityName = someCityTextField.getText();
 		stateName = someStateComboBox.getValue();
 		date = someDate.getValue();
+		commentDetails = someCommentTextField.getText();
 	}
 	
 	//check if record already exists
@@ -57,25 +58,26 @@ public class dataEntryUtil
 	
 	//enter data in database
 	public static boolean enterData(TextField compTextField, TextField posTextField, TextField refNoTextField,
-			TextField cityNameTextField, ComboBox<String> stateNameComboBox, DatePicker chooseDate)
+			TextField cityNameTextField, ComboBox<String> stateNameComboBox, DatePicker chooseDate, TextField comments)
 	{
-		getParameters(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox, chooseDate);
+		getParameters(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox, chooseDate, comments);
 		int appNo = 0;
 		if (entryCheck(compName, posName, refNo, cityName, stateName))
 		{
 			try
 			{
 				st = c.createStatement();
-				ResultSet rs = st.executeQuery("SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata`");
+				ResultSet rs = st.executeQuery("SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial`");
 				if (rs != null)
 				{
 					rs.next();
 					appNo = rs.getInt(1);
 					appNo++;
 					st1 = c.createStatement();
-					String str = "INSERT INTO `jobdetails`.`jobdata` " + 
-					"(`App No`, `Date`, `Company`, `Position`, `City`, `State`, `Ref No`) " + 
-					"VALUES ('" +appNo+ "', '" +date+ "', '" +compName+ "', '" +posName+ "', '" +cityName+ "', '"+ stateName+ "', '" +refNo+ "')";
+					String str = "INSERT INTO `jobdetails`.`jobdatatrial` " + 
+					"(`App No`, `Date`, `Company`, `Position`, `City`, `State`, `Ref No`, `Comments`) " + 
+					"VALUES ('" +appNo+ "', '" +date+ "', '" +compName+ "', '" +posName+
+					"', '" +cityName+ "', '"+ stateName+ "', '" +refNo+ "', '" +commentDetails+ "')";
 					st1.executeUpdate(str);
 				}
 				else

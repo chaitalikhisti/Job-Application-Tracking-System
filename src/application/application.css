@@ -157,3 +157,19 @@
 	-fx-font-weight: bold;
 }
 
+.table-view .column-header-background .label
+{
+    -fx-background-color: transparent; 
+    -fx-font-weight:bold;
+    -fx-font-size: 15px;
+}
+
+.table-view .table-column
+{
+    -fx-alignment:center;
+}
+
+.table-view .table-cell
+{
+    -fx-font-family: "Times New Roman";      
+}

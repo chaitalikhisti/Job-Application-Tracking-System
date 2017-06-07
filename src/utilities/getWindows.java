@@ -2,6 +2,7 @@ package utilities;
 
 import application.Main;
 import javafx.application.Application;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
@@ -33,10 +34,10 @@ public class getWindows extends Application
 	}
 	
 	//method to load Search Results Stage
-	public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField)
+	public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField, DatePicker someDatePicker)
 	{
 		displayEntries mainWindow = new displayEntries();
-		mainWindow.start(someStage, someString, someTextField);
+		mainWindow.start(someStage, someString, someTextField, someDatePicker);
 	}
 	
 	//add unimplemented method

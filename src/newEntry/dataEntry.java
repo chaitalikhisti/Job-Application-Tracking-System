@@ -155,7 +155,7 @@ public class dataEntry extends Application
 					else
 					{
 						//check and enter data in database
-						if (dataEntryUtil.enterData(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox, chooseDate))
+						if (dataEntryUtil.enterData(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox, chooseDate, commentNameTextField))
 						{
 							submitAlert.showAndWait();
 							//clear all fields for next data entry

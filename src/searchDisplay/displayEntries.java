@@ -1,11 +1,16 @@
 package searchDisplay;
 
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import application.Main;
 import javafx.application.Application;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,6 +21,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -48,8 +54,9 @@ public class displayEntries extends Application
 	Connection c = databaseConnection.establishConnection();
 	Statement st = null;
 	String searchTerm;	
+	LocalDate searchDate;
 	
-	public void start(Stage displayPageStage, String searchSelectionString, TextField searchTextField) 
+	public void start(Stage displayPageStage, String searchSelectionString, TextField searchTextField, DatePicker someDatePicker) 
 	{
 		try
 		{
@@ -59,7 +66,7 @@ public class displayEntries extends Application
 			vBox.setPadding(new Insets(25, 25, 25, 25));
 			vBox.setAlignment(Pos.TOP_CENTER);
 			//nodes
-			sceneTitle = new Text("Search Results: ");
+			sceneTitle = new Text("Search Results");
 			sceneTitle.setId("dataDisplaySceneTitle");
 			invisibleText = new Text("");
 			invisibleText.setId("invisibleText3");
@@ -78,8 +85,9 @@ public class displayEntries extends Application
 			errorAlert.setHeaderText(null);
 			//database query and entry in dynamic table
 			st = c.createStatement();
-	    	String str = "SELECT * FROM `jobdetails`.`jobdata` WHERE `" +searchSelectionString+ "` LIKE '%" +searchTerm+ "%'";
-			ResultSet rs = st.executeQuery(str);
+			String str = "SELECT * FROM `jobdetails`.`jobdatatrial` WHERE `" +searchSelectionString+ "` LIKE '%" +searchTerm+ "%'";
+			System.out.println(str);
+	    	ResultSet rs = st.executeQuery(str);
 			rs.beforeFirst();
 			//dynamic table layout
 			data = FXCollections.observableArrayList();
@@ -89,7 +97,57 @@ public class displayEntries extends Application
 			for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++)
 			{
                 final int j = i; 
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
+                TableColumn col = null;
+                if (rs.getMetaData().getColumnName(i+1).equals("App No"))
+                {
+                	 col = new TableColumn("No.");
+                	 col.setMinWidth(50);
+                }
+                else if (rs.getMetaData().getColumnName(i+1).equals("Date"))
+                {
+                	col = new TableColumn("Date");
+                	col.setMaxWidth(80);
+                }
+                else if (rs.getMetaData().getColumnName(i+1).equals("Company"))
+                {
+                	col = new TableColumn("Company");
+                	col.setPrefWidth(100);
+                	col.setMaxWidth(150);
+                }
+                else if (rs.getMetaData().getColumnName(i+1).equals("Position"))
+                {
+                	col = new TableColumn("Position");
+                	col.setMinWidth(150);
+                	col.setMaxWidth(200);
+                }
+                else if (rs.getMetaData().getColumnName(i+1).equals("City"))
+                {
+                	col = new TableColumn("City");
+                	col.setMinWidth(80);
+                	col.setMaxWidth(100);
+                }
+                else if (rs.getMetaData().getColumnName(i+1).equals("State"))
+                {
+                	col = new TableColumn("State");
+                	col.setMinWidth(80);
+                	col.setMaxWidth(80);
+                }
+                else if (rs.getMetaData().getColumnName(i+1).equals("Ref No"))
+                {
+                	col = new TableColumn("App ID");
+                	col.setMinWidth(80);
+                	col.setMaxWidth(100);
+                }
+                else if (rs.getMetaData().getColumnName(i+1).equals("Comments"))
+                {
+                	col = new TableColumn("Comments");
+                	col.setMinWidth(100);
+                	col.setMinWidth(250);
+                }
+                else
+                {
+                	col = new TableColumn("Some Col");
+                }
                 col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList,String>,ObservableValue<String>>()
                 {                    
                     public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) 
@@ -119,6 +177,7 @@ public class displayEntries extends Application
 	                }
 	                data.add(row);
 				}
+				//testing ends
 				while(rs.next());
 				dispTable.setItems(data);
 				dispTable.setPrefSize(700, 300);
