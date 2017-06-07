@@ -79,53 +79,26 @@ public class searchData extends Application
 			//submit button
 			dt.setOnAction(event ->
 			{
-				// grid.getChildren().remove(searchTextField);
-				 //grid.add(chooseDate, 1, 8);
 				 searchTextField.setPromptText("YYYY-MM-DD format");
 			});
 			cn.setOnAction(event ->
 			{
-				if (grid.getChildren().contains(chooseDate))
-				{
-					grid.getChildren().remove(chooseDate);
-					grid.add(searchTextField, 1, 8);
-					searchTextField.setPromptText("Ex. Google");
-				}
+				searchTextField.setPromptText("Ex. Google");
 			});
 			pos.setOnAction(event ->
 			{
-				if (grid.getChildren().contains(chooseDate))
-				{
-					grid.getChildren().remove(chooseDate);
-					grid.add(searchTextField, 1, 8);
-				}
 				searchTextField.setPromptText("Ex. Software Engineer");
 			});
 			city.setOnAction(event ->
 			{
-				if (grid.getChildren().contains(chooseDate))
-				{
-					grid.getChildren().remove(chooseDate);
-					grid.add(searchTextField, 1, 8);
-				}
 				searchTextField.setPromptText("Ex. New York");
 			});
 			state.setOnAction(event ->
 			{
-				if (grid.getChildren().contains(chooseDate))
-				{
-					grid.getChildren().remove(chooseDate);
-					grid.add(searchTextField, 1, 8);
-				}
 				searchTextField.setPromptText("Ex. IL for Illinois");
 			});
 			refNo.setOnAction(event ->
 			{
-				if (grid.getChildren().contains(chooseDate))
-				{
-					grid.getChildren().remove(chooseDate);
-					grid.add(searchTextField, 1, 8);
-				}
 				searchTextField.setPromptText("Ex. #177714B");
 			});
 			searchBtn =  new Button("SEARCH");
@@ -136,7 +109,7 @@ public class searchData extends Application
 			grid.add(searchHBtn, 0, 9);
 			searchBtn.setOnAction(event -> 
 			{
-				if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty() && chooseDate.getValue() == null)
+				if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty())
 				{
 					errorAlert.showAndWait();
 				}
@@ -174,7 +147,7 @@ public class searchData extends Application
 						errorAlert.showAndWait();
 					}
 					//search data in database
-					getWindows.getSearchResultsWindow(searchPageStage,radioSelectionString, searchTextField, chooseDate);
+					getWindows.getSearchResultsWindow(searchPageStage,radioSelectionString, searchTextField);
 					//clear all fields for next data entry
 					searchTextField.clear();
 					searchSelection.selectToggle(null);

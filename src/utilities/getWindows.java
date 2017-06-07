@@ -34,10 +34,12 @@ public class getWindows extends Application
 	}
 	
 	//method to load Search Results Stage
-	public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField, DatePicker someDatePicker)
+	//public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField, DatePicker someDatePicker)
+	public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField)
 	{
 		displayEntries mainWindow = new displayEntries();
-		mainWindow.start(someStage, someString, someTextField, someDatePicker);
+		//mainWindow.start(someStage, someString, someTextField, someDatePicker);
+		mainWindow.start(someStage, someString, someTextField);
 	}
 	
 	//add unimplemented method

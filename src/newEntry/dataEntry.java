@@ -1,8 +1,5 @@
 package newEntry;
 
-import java.time.LocalDate;
-import java.util.Locale;
-
 import application.Main;
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
@@ -13,6 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.text.*; // for Text
+import java.time.LocalDate;
 import utilities.*;
 
 public class dataEntry extends Application 
@@ -165,6 +163,7 @@ public class dataEntry extends Application
 							cityNameTextField.clear();
 							stateNameComboBox.setValue("Select State");
 							chooseDate.setValue(null);
+							getWindows.getMainWindow(logPageStage);
 						}
 						else
 						{

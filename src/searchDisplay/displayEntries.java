@@ -1,48 +1,28 @@
 package searchDisplay;
 
-import java.awt.List;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import application.Main;
 import javafx.application.Application;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
+import javafx.collections.*; // for FXCollections and ObservableList
+import javafx.geometry.*; // for Insets and Pos
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*; // for Alerts, Button, TableColumn
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.image.Image;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import javafx.scene.layout.*; // for GridPane, HBox, VBox
+import javafx.scene.text.*; // for Font, FontWeight, Text
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import newEntry.dataEntry;
 import utilities.databaseConnection;
 import utilities.getWindows;
+import java.sql.*; //for connection, resultset, statement
+import java.time.LocalDate;
 
 public class displayEntries extends Application 
 {
+	GridPane grid;
 	Text sceneTitle, invisibleText;
 	private TableView dispTable = new TableView();
 	private ObservableList<ObservableList> data;
@@ -56,23 +36,26 @@ public class displayEntries extends Application
 	String searchTerm;	
 	LocalDate searchDate;
 	
-	public void start(Stage displayPageStage, String searchSelectionString, TextField searchTextField, DatePicker someDatePicker) 
+	public void start(Stage displayPageStage, String searchSelectionString, TextField searchTextField) 
 	{
 		try
 		{
 			searchTerm = searchTextField.getText();
-			//layout container
-			vBox.setSpacing(5);
-			vBox.setPadding(new Insets(25, 25, 25, 25));
-			vBox.setAlignment(Pos.TOP_CENTER);
+			//grid layout
+			grid = new GridPane();
+			grid.setAlignment(Pos.TOP_CENTER);
+			grid.setHgap(10);
+			grid.setVgap(10);
+			grid.setPadding(new Insets(25, 25, 25, 25));
 			//nodes
-			sceneTitle = new Text("Search Results");
+			sceneTitle = new Text("                       Search Results");
 			sceneTitle.setId("dataDisplaySceneTitle");
 			invisibleText = new Text("");
 			invisibleText.setId("invisibleText3");
 			//cancel button
 			cancelBtn =  new Button("OK");
 			cancelHBtn = new HBox(20);
+			cancelHBtn.setId("displayCancelHBtn");
 			cancelHBtn.setAlignment(Pos.CENTER);
 			cancelHBtn.getChildren().add(cancelBtn);
 			cancelBtn.setOnAction(event ->
@@ -86,7 +69,6 @@ public class displayEntries extends Application
 			//database query and entry in dynamic table
 			st = c.createStatement();
 			String str = "SELECT * FROM `jobdetails`.`jobdatatrial` WHERE `" +searchSelectionString+ "` LIKE '%" +searchTerm+ "%'";
-			System.out.println(str);
 	    	ResultSet rs = st.executeQuery(str);
 			rs.beforeFirst();
 			//dynamic table layout
@@ -182,10 +164,12 @@ public class displayEntries extends Application
 				dispTable.setItems(data);
 				dispTable.setPrefSize(700, 300);
 				//add nodes to layout container
-				vBox.getChildren().addAll(sceneTitle, invisibleText, dispTable, cancelHBtn);
+				grid.add(sceneTitle, 0, 0);
+				grid.add(invisibleText, 0, 1);
+				grid.add(dispTable, 0, 2);
+				grid.add(cancelHBtn, 0, 3);
 				//final adding to layout
-				displayScene = new Scene(new Group(), 800, 600);
-				((Group) displayScene.getRoot()).getChildren().addAll(vBox);
+				displayScene = new Scene(grid, 800, 600);
 				displayScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
 				displayPageStage.setTitle("Job Application Tracking System");
 				displayPageStage.getIcons().add(new Image("file:hireme.png"));

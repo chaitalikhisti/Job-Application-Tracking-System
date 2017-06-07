@@ -2,7 +2,6 @@ package utilities;
 
 import java.sql.*; // for Connection, Statement
 import java.time.LocalDate;
-
 import javafx.scene.control.*; //for ComboBox, TextField
 
 public class dataEntryUtil
@@ -36,9 +35,9 @@ public class dataEntryUtil
 		try
 		{
 			st2 = c.createStatement();
-			String searchString = "SELECT * FROM `jobdetails`.`jobdata` WHERE " + 
+			String searchString = "SELECT * FROM `jobdetails`.`jobdatatrial` WHERE " + 
 					"(`Company` = '" +compName+ "' AND `Position` = '" +posName+ 
-					"' AND `City` = '" +cityName+ "' AND `State` = '"+ stateName+ "' AND `Ref No` = '" +refNo+ "')";
+					"' AND `City` = '" +cityName+ "' AND `State` = '"+ stateName+ "')";
 			ResultSet rs = st2.executeQuery(searchString);
 			if (rs.next())
 			{

@@ -173,3 +173,8 @@
 {
     -fx-font-family: "Times New Roman";      
 }
+
+#displayCancelHBtn
+{
+	-fx-padding: 50px 100px;
+}
