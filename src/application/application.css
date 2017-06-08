@@ -52,12 +52,17 @@
 
 #newHBtn
 {
-	-fx-padding: 50px 100px;
+	-fx-padding: 50px 50px;
 }
 
 #searchHBtn
 {
-	-fx-padding: 50px 100px;
+	-fx-padding: 50px 50px;
+}
+
+#statsHBtn
+{
+	-fx-padding: 50px 50px;
 }
 
 /* DATA ENTRY WINDOW STYLING */

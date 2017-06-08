@@ -14,8 +14,8 @@ public class Main extends Application
 {
 	GridPane grid;
 	Text sceneTitle, invisibleText;
-	Button newBtn, searchBtn;
-	HBox newHBtn, searchHBtn;
+	Button newBtn, searchBtn, statsBtn;
+	HBox newHBtn, searchHBtn, statsHBtn;
 	Scene welcomeScene;
 	
 	@Override
@@ -35,8 +35,8 @@ public class Main extends Application
 			sceneTitle = new Text("Job Application Tracking System");
 			sceneTitle.setId("mainSceneTitle");
 			//add nodes to layout
-			grid.add(invisibleText, 0, 0, 2, 4); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
-			grid.add(sceneTitle, 0, 3, 2, 4); 
+			grid.add(invisibleText, 0, 0, 3, 4); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
+			grid.add(sceneTitle, 0, 3, 3, 4); 
 			grid.setGridLinesVisible(false); //gridLines for testing purpose
 			//newEntry button
 			newBtn =  new Button("New Entry");
@@ -59,6 +59,17 @@ public class Main extends Application
 			searchBtn.setOnAction(event -> 
 			{
 				getWindows.getSearchWindow(welcomePageStage);
+			});
+			//searchEntry button
+			statsBtn =  new Button("View Statistics");
+			statsHBtn = new HBox(20);
+			statsHBtn.setId("statsHBtn");
+			statsHBtn.setAlignment(Pos.BOTTOM_LEFT);
+			statsHBtn.getChildren().add(statsBtn);
+			grid.add(statsHBtn, 2, 7);
+			statsBtn.setOnAction(event -> 
+			{
+				getWindows.getStatsResultsWindow(welcomePageStage);
 			});
 			//final adding to layout
 			welcomeScene = new Scene(grid, 800, 600);

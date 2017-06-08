@@ -4,6 +4,7 @@ import application.Main;
 import javafx.application.Application;
 import javafx.geometry.*; // for Insets, Pos
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.scene.Scene;
 import javafx.scene.control.*; // for Button, Label, TextField
 import javafx.scene.control.Alert.AlertType;
@@ -90,6 +91,31 @@ public class dataEntry extends Application
 			dateName = new Label("Application Date");
 			colonText7 = new Label(" "+colon);
 			chooseDate = new DatePicker();
+			/*
+			 *  Reference for Callback function of date-picker:
+			 *  https://docs.oracle.com/javase/8/javafx/user-interface-tutorial/date-picker.htm
+			 */
+			final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() 
+			{
+                @Override
+                public DateCell call(final DatePicker datePicker) 
+                {
+                    return new DateCell() 
+                    {
+                        @Override
+                        public void updateItem(LocalDate item, boolean empty) 
+                        {
+                            super.updateItem(item, empty);
+                           
+                            if (item.isAfter(LocalDate.now()) )
+                            {
+                                setDisable(true);
+                            }   
+                        }
+                    };
+                }
+		    };
+		    chooseDate.setDayCellFactory(dayCellFactory);
 			chooseDate.setShowWeekNumbers(true);
 			chooseDate.setPrefSize(400, 35);
 			//add nodes to layout

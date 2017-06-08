@@ -49,11 +49,6 @@ public class displayChartUtil
 		someChart.setCategoryGap(3);
 	}
     
-    public static void someFunction()
-	{
-		
-	}
-    
     public static Node weeklyChart()
 	{
     	final CategoryAxis weekXAxis = new CategoryAxis();
@@ -94,54 +89,76 @@ public class displayChartUtil
 	{
     	final CategoryAxis monthXAxis = new CategoryAxis();
         final NumberAxis monthYAxis = new NumberAxis();
-    	final BarChart<String,Number> barChart = new BarChart<String,Number>(monthXAxis,monthYAxis); 
+    	final BarChart<String,Number> monthBarChart = new BarChart<String,Number>(monthXAxis,monthYAxis); 
     	try
 		{
 			 st = c.createStatement();
-			 //set basic barchart features
 		     XYChart.Series series = new XYChart.Series();
 			 //calculating whole weeks dates
-			 LocalDate today;
-			 //Month currentMonth, spanMonths;
-			 int currentMonth, spanMonths;
-			 Month currentMonthName, spanMonthsName;
-			 String monthName;
+			 LocalDate refDate = LocalDate.now();
+			 LocalDate today = LocalDate.of(refDate.getYear(), refDate.getMonthValue(), 01);
+			 int dayOfMonth, spanDates;
+			 String dayOfMonthString;
 			 int getNoOfApps;
-			 //System.out.println("MonthNo. MonthName   Apps");
-			 for (int i = 0; i < 12; i++)
+			 for (int i = 0; i < refDate.lengthOfMonth(); i++)
 			 {
 				//get dates data
-				 today = LocalDate.now();
-				 currentMonth = today.getMonthValue();
-				 currentMonthName = today.getMonth();
-				 spanMonths = currentMonth - i;
-				 spanMonthsName = currentMonthName.minus(i);
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial` WHERE MONTH(`Date`) = '" +spanMonths+ "'";
-				 //System.out.println(str);
+				 dayOfMonth = today.getDayOfMonth();
+				 spanDates = dayOfMonth + i;
+				 dayOfMonthString = "" +spanDates;
+				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial` WHERE DAYOFMONTH(`Date`) = '" +spanDates+ "'";
 				 getNoOfApps = getValue(str);
-				 monthName = spanMonthsName.name();
-				 String smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
-				 //System.out.println(smallMonthName+ "");
-				 //System.out.println(spanMonths+ "    " +smallMonthName+ "  "+getNoOfApps);
 				 //construct barchart
-				 series.getData().add(new XYChart.Data(smallMonthName, getNoOfApps));
+				 series.getData().add(new XYChart.Data(dayOfMonthString, getNoOfApps));
 			 }
-			 chartSetup(barChart);
-			 barChart.getData().add(series);
-			 System.out.println("Added Series");
+			 chartSetup(monthBarChart);
+			 monthBarChart.getData().add(series);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}		
-		return barChart;
+    	return monthBarChart;
 	}
     
     public static Node yearlyChart()
     {
     	final CategoryAxis yearXAxis = new CategoryAxis();
         final NumberAxis yearYAxis = new NumberAxis();
-    	final BarChart<String,Number> barChart = new BarChart<String,Number>(yearXAxis,yearYAxis); 
-    	return barChart;
+    	final BarChart<String,Number> yearBarChart = new BarChart<String,Number>(yearXAxis,yearYAxis); 
+    	try
+		{
+			 st = c.createStatement();
+			 //set basic barchart features
+		     XYChart.Series series = new XYChart.Series();
+			 //calculating whole weeks dates
+		     LocalDate refDate = LocalDate.now();
+			 LocalDate today = LocalDate.of(refDate.getYear(), 01, 01);
+			 int currentMonth, spanMonths;
+			 Month currentMonthName, spanMonthsName;
+			 String monthName;
+			 int getNoOfApps;
+			 for (int i = 0; i < 12; i++)
+			 {
+				//get dates data
+				 currentMonth = today.getMonthValue();
+				 currentMonthName = today.getMonth();
+				 spanMonths = currentMonth + i;
+				 spanMonthsName = currentMonthName.plus(i);
+				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial` WHERE MONTH(`Date`) = '" +spanMonths+ "'";
+				 getNoOfApps = getValue(str);
+				 monthName = spanMonthsName.name();
+				 String smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
+				 //construct barchart
+				 series.getData().add(new XYChart.Data(smallMonthName, getNoOfApps));
+			 }
+			 chartSetup(yearBarChart);
+			 yearBarChart.getData().add(series);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}		
+		return yearBarChart;
     }
 }

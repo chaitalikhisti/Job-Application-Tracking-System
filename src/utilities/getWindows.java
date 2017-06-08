@@ -1,6 +1,7 @@
 package utilities;
 
 import application.Main;
+import displayCharts.dispChart;
 import javafx.application.Application;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -34,15 +35,20 @@ public class getWindows extends Application
 	}
 	
 	//method to load Search Results Stage
-	//public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField, DatePicker someDatePicker)
 	public static void getSearchResultsWindow(Stage someStage, String someString, TextField someTextField)
 	{
 		displayEntries mainWindow = new displayEntries();
-		//mainWindow.start(someStage, someString, someTextField, someDatePicker);
 		mainWindow.start(someStage, someString, someTextField);
 	}
 	
-	//add unimplemented method
+	//method to load Statistical Analysis Stage
+	public static void getStatsResultsWindow(Stage someStage)
+	{
+		dispChart mainWindow = new dispChart();
+		mainWindow.start(someStage);
+	}
+	
+	//abstract method
 	@Override
 	public void start(Stage primaryStage) 
 	{
