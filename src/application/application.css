@@ -178,3 +178,68 @@
 {
 	-fx-padding: 50px 100px;
 }
+
+/* CHART DISPLAY WINDOW STYLING */
+#chartDisplaySceneTitle
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:40px;
+	-fx-font-weight: bold;
+}
+
+#invisibleText4
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:20px;
+	-fx-font-weight: bold;
+}
+
+#invisibleText5
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:10px;
+	-fx-font-weight: bold;
+}
+
+#invisibleText6
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:10px;
+	-fx-font-weight: bold;
+}
+
+.chart-plot-background 
+{
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines 
+{
+    -fx-stroke: transparent;
+}
+
+.chart-horizontal-grid-lines 
+{
+    -fx-stroke: transparent;
+}
+
+.default-color0.chart-bar 
+{ 
+	-fx-bar-fill: black;
+}
+
+.axis
+{
+  -fx-tick-label-font-size: 15;
+  -fx-tick-label-fill: black;
+  -fx-tick-label-font-family: "Times New Roman";
+}
+
+#backHBtn
+{
+	-fx-padding: 50px 50px;
+}
