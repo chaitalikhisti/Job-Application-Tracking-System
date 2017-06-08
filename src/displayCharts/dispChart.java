@@ -69,6 +69,7 @@ public class dispChart extends Application
 			weekChart = displayChartUtil.weeklyChart();
 			if (grid.getChildren().contains(monthChart) || grid.getChildren().contains(yearChart))
 			{
+				System.out.println("Removing earlier charts for week chart");
 				grid.getChildren().remove(monthChart);
 				grid.getChildren().remove(yearChart);
 			}
@@ -83,7 +84,8 @@ public class dispChart extends Application
 			monthChart = displayChartUtil.monthlyChart();
 			if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(yearChart))
 			{
-				grid.getChildren().remove(monthChart);
+				System.out.println("Removing earlier charts for month chart");
+				grid.getChildren().remove(weekChart);
 				grid.getChildren().remove(yearChart);
 			}
 			grid.add(monthChart, 0, 2, 3, 1);
