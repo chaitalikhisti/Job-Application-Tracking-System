@@ -3,10 +3,13 @@ package utilities;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.Locale;
 
 import javafx.scene.Node;
@@ -54,12 +57,33 @@ public class displayChartUtil
     	final CategoryAxis weekXAxis = new CategoryAxis();
         final NumberAxis weekYAxis = new NumberAxis();
     	final BarChart<String,Number> weekBarChart = new BarChart<String,Number>(weekXAxis,weekYAxis); 
-		String weekName = someComboBox.getValue();
-		System.out.println(weekName);
+		//getting the week number
+    	String weekName = someComboBox.getValue();
+		//System.out.println(weekName);
 		String regex = "Week ";
 		weekName = weekName.replaceAll(regex, "");
-		System.out.println("edited week name: " +weekName);		
-    	try
+		//System.out.println("edited week name: " +weekName);
+		//String week = "1";
+		int weekInt = Integer.parseInt(weekName);
+		//getting date on sunday for that week
+		LocalDate refDate = LocalDate.now();
+		LocalDate refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
+		//LocalDate refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
+		//LocalDate refStartDate = LocalDate.of(2017, 06, 8);
+		//LocalDate refEndDate = LocalDate.of(refDate.getYear(), 12, 31);
+		TemporalField fieldUS = WeekFields.of(Locale.US).dayOfWeek();
+		LocalDate refWeekStart = refStartDate.with(fieldUS, 1);
+		//System.out.println("Nearest Sunday: " +refWeekStart);
+		//working out 'for' logic
+		LocalDate startDate = null, endDate = null;
+		for (int i = 0; i < weekInt; i++)
+		{
+			startDate = refWeekStart;
+			endDate = startDate.plus(Period.ofDays(6));
+			refWeekStart = endDate.plus(Period.ofDays(1));
+		}
+		//System.out.println("Week " +weekInt+ ": " +startDate+ " to " +endDate);
+		try
 		{
 			 st = c.createStatement();
 		     XYChart.Series series = new XYChart.Series();
@@ -71,9 +95,15 @@ public class displayChartUtil
 			 for (int i = 0; i < 7; i++)
 			 {
 				//get dates data
-				 today = LocalDate.now();
-				 yesterday = today.minus(Period.ofDays(i));
+				 //today = LocalDate.now();
+				 //yesterday = today.minus(Period.ofDays(i));
+				 //yesterday = refWeekStart.plus(Period.ofDays(7));
+				 //refWeekStart = yesterday;
+				 //System.out.println("" +yesterday);
+				 yesterday = startDate;
+				 startDate = startDate.plus(Period.ofDays(1));
 				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE `Date` = '" +yesterday+ "'";
+				 //System.out.println(str);
 				 getNoOfApps = getValue(str);
 				 weekDay = yesterday.getDayOfWeek().name();
 				 String upToNCharacters = weekDay.substring(0, Math.min(weekDay.length(), 3));
@@ -82,7 +112,7 @@ public class displayChartUtil
 			 }
 			 someGrid.getChildren().remove(someComboBox);
 			 chartSetup(weekBarChart);
-			 weekBarChart.setTitle("Application statistics for Week :");
+			 weekBarChart.setTitle("Applications in Week " +weekName);
 			 weekBarChart.getData().add(series);
 		}
 		catch (Exception e)
