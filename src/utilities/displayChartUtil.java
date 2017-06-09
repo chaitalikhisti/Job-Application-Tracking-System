@@ -57,24 +57,20 @@ public class displayChartUtil
     	final CategoryAxis weekXAxis = new CategoryAxis();
         final NumberAxis weekYAxis = new NumberAxis();
     	final BarChart<String,Number> weekBarChart = new BarChart<String,Number>(weekXAxis,weekYAxis); 
+    	LocalDate yesterday;
+		String weekDay;
+		int getNoOfApps;
 		//getting the week number
     	String weekName = someComboBox.getValue();
-		//System.out.println(weekName);
 		String regex = "Week ";
 		weekName = weekName.replaceAll(regex, "");
-		//System.out.println("edited week name: " +weekName);
-		//String week = "1";
 		int weekInt = Integer.parseInt(weekName);
 		//getting date on sunday for that week
 		LocalDate refDate = LocalDate.now();
 		LocalDate refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
-		//LocalDate refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
-		//LocalDate refStartDate = LocalDate.of(2017, 06, 8);
-		//LocalDate refEndDate = LocalDate.of(refDate.getYear(), 12, 31);
 		TemporalField fieldUS = WeekFields.of(Locale.US).dayOfWeek();
 		LocalDate refWeekStart = refStartDate.with(fieldUS, 1);
-		//System.out.println("Nearest Sunday: " +refWeekStart);
-		//working out 'for' logic
+		//acquiring start and end dates for the selected week
 		LocalDate startDate = null, endDate = null;
 		for (int i = 0; i < weekInt; i++)
 		{
@@ -82,28 +78,17 @@ public class displayChartUtil
 			endDate = startDate.plus(Period.ofDays(6));
 			refWeekStart = endDate.plus(Period.ofDays(1));
 		}
-		//System.out.println("Week " +weekInt+ ": " +startDate+ " to " +endDate);
 		try
 		{
 			 st = c.createStatement();
 		     XYChart.Series series = new XYChart.Series();
 			 //calculating whole weeks dates
-			 LocalDate today;
-			 LocalDate yesterday;
-			 String weekDay;
-			 int getNoOfApps;
 			 for (int i = 0; i < 7; i++)
 			 {
 				//get dates data
-				 //today = LocalDate.now();
-				 //yesterday = today.minus(Period.ofDays(i));
-				 //yesterday = refWeekStart.plus(Period.ofDays(7));
-				 //refWeekStart = yesterday;
-				 //System.out.println("" +yesterday);
 				 yesterday = startDate;
 				 startDate = startDate.plus(Period.ofDays(1));
 				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE `Date` = '" +yesterday+ "'";
-				 //System.out.println(str);
 				 getNoOfApps = getValue(str);
 				 weekDay = yesterday.getDayOfWeek().name();
 				 String upToNCharacters = weekDay.substring(0, Math.min(weekDay.length(), 3));
@@ -133,7 +118,6 @@ public class displayChartUtil
 		     XYChart.Series series = new XYChart.Series();
 			 //calculating whole weeks dates
 		     LocalDate refDate = LocalDate.now();
-			 //LocalDate today = LocalDate.of(refDate.getYear(), refDate.getMonthValue(), 01);
 		     LocalDate today = LocalDate.of(refDate.getYear(), someMonthInt, 01);
 		     int dayOfMonth, spanDates;
 			 String dayOfMonthString;
