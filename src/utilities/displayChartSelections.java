@@ -12,14 +12,12 @@ public class displayChartSelections
     {
     	final ComboBox<String> weekNoComboBox = new ComboBox<String>();
     	weekNoComboBox.setVisibleRowCount(4);
-        LocalDate refDate, refStartDate, refEndDate;
-        int firstWeek, lastWeek;
+        LocalDate refDate, refEndDate;
+        int lastWeek;
     	refDate = LocalDate.now();
-    	refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
 		refEndDate = LocalDate.of(refDate.getYear(), 12, 31);
 		//get no. of weeks in the year
 		WeekFields weekField = WeekFields.of(Locale.getDefault());
-		firstWeek = refStartDate.get(weekField.weekOfYear());
 		lastWeek = refEndDate.get(weekField.weekOfYear()) - 1; // reduced by 1 considering sunday
 		for (int i = 1; i <= lastWeek; i++)
     	{
@@ -50,7 +48,7 @@ public class displayChartSelections
     	yearComboBox.setVisibleRowCount(4);
     	yearComboBox.getItems().addAll
     	(
-    		"2017", "2018", "2019", "2020"
+    		"2016", "2017", "2018", "2019", "2020"
     	);
         yearComboBox.setValue("Year");
         return yearComboBox;

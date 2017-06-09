@@ -44,52 +44,64 @@ public class displayChartUtil
     
     public static Node weeklyChart(GridPane someGrid, ComboBox<String> someComboBox)
 	{
+    	//variables and components required for the chart
     	final CategoryAxis weekXAxis = new CategoryAxis();
         final NumberAxis weekYAxis = new NumberAxis();
     	final BarChart<String,Number> weekBarChart = new BarChart<String,Number>(weekXAxis,weekYAxis); 
-    	LocalDate yesterday;
-		String weekDay;
-		int getNoOfApps;
-		int totalApps = 0;
-		//getting the week number
-    	String weekName = someComboBox.getValue();
-		String regex = "Week ";
+    	LocalDate refDate, refStartDate, refWeekStart, yesterday;
+    	LocalDate startDate = null, endDate = null, forLoopStartDate = null;
+    	Month currentMonth;
+		String weekName, regex, smallStartWeekDay, startDateDetails, smallEndWeekDay;
+		String endDateDetails, weekDay, monthName, smallMonthName, dayAndDate;
+		int getNoOfApps, totalApps = 0, currentDate;
+		//getting the week number and start-end dates
+    	weekName = someComboBox.getValue();
+		regex = "Week ";
 		weekName = weekName.replaceAll(regex, "");
 		int weekInt = Integer.parseInt(weekName);
-		//getting date on sunday for that week
-		LocalDate refDate = LocalDate.now();
-		LocalDate refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
+		refDate = LocalDate.now();
+		refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
 		TemporalField fieldUS = WeekFields.of(Locale.US).dayOfWeek();
-		LocalDate refWeekStart = refStartDate.with(fieldUS, 1);
+		refWeekStart = refStartDate.with(fieldUS, 1);
 		//acquiring start and end dates for the selected week
-		LocalDate startDate = null, endDate = null;
 		for (int i = 0; i < weekInt; i++)
 		{
 			startDate = refWeekStart;
 			endDate = startDate.plus(Period.ofDays(6));
 			refWeekStart = endDate.plus(Period.ofDays(1));
 		}
+		smallStartWeekDay = startDate.getMonth().name().substring(0, Math.min(startDate.getMonth().name().length(), 3));
+		startDateDetails = startDate.getDayOfMonth()+ " " +smallStartWeekDay+ " " +startDate.getYear();
+		smallEndWeekDay = endDate.getMonth().name().substring(0, Math.min(endDate.getMonth().name().length(), 3));
+		endDateDetails = endDate.getDayOfMonth()+ " " +smallEndWeekDay+ " " +endDate.getYear();		
+		forLoopStartDate = startDate;
 		try
 		{
 			 st = c.createStatement();
 		     XYChart.Series series = new XYChart.Series();
-			 //calculating whole weeks dates
+			 //calculations and display in chart
 			 for (int i = 0; i < 7; i++)
 			 {
-				//get dates data
-				 yesterday = startDate;
-				 startDate = startDate.plus(Period.ofDays(1));
+				//get data
+				 yesterday = forLoopStartDate;
 				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE `Date` = '" +yesterday+ "'";
 				 getNoOfApps = getValue(str);
 				 totalApps += getNoOfApps;
+				 //x-axis labels
 				 weekDay = yesterday.getDayOfWeek().name();
-				 String upToNCharacters = weekDay.substring(0, Math.min(weekDay.length(), 3));
-				//construct barchart
-				 series.getData().add(new XYChart.Data(upToNCharacters, getNoOfApps));
+				 String dayOfWeek = weekDay.substring(0, Math.min(weekDay.length(), 3));
+				 currentMonth = yesterday.getMonth();
+				 monthName = currentMonth.name();
+				 smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
+				 currentDate = yesterday.getDayOfMonth();
+				 dayAndDate = "   " +dayOfWeek+ "\n(" + smallMonthName+"-" +currentDate+ ")";	
+				 //construct barchart
+				 series.getData().add(new XYChart.Data(dayAndDate, getNoOfApps));
+				 forLoopStartDate = forLoopStartDate.plus(Period.ofDays(1));
 			 }
 			 someGrid.getChildren().remove(someComboBox);
 			 chartSetup(weekBarChart);
-			 weekBarChart.setTitle("Applications in Week " +weekName+ " : " +totalApps);
+			 weekBarChart.setTitle("Applications in Week " +weekName+ " (" +startDateDetails+ " to " +endDateDetails+ ") : " +totalApps);
 			 weekBarChart.getData().add(series);
 		}
 		catch (Exception e)
@@ -101,20 +113,22 @@ public class displayChartUtil
     
     public static Node monthlyChart(GridPane someGrid, ComboBox<String> someComboBox, int someMonthInt, String someMonthName)
 	{
+    	//variables and components required for the chart
     	final CategoryAxis monthXAxis = new CategoryAxis();
         final NumberAxis monthYAxis = new NumberAxis();
     	final BarChart<String,Number> monthBarChart = new BarChart<String,Number>(monthXAxis,monthYAxis); 
+    	LocalDate refDate, today;
+    	Month currentMonthName;
+		String dayOfMonthString;
+    	int dayOfMonth, currentMonth, spanDates, getNoOfApps, totalApps = 0;
+    	//acquiring start date for selected month in current year
+	    refDate = LocalDate.now();
+	    today = LocalDate.of(refDate.getYear(), someMonthInt, 01);
     	try
 		{
 			 st = c.createStatement();
 		     XYChart.Series series = new XYChart.Series();
-			 //calculating whole weeks dates
-		     LocalDate refDate = LocalDate.now();
-		     LocalDate today = LocalDate.of(refDate.getYear(), someMonthInt, 01);
-		     int dayOfMonth, spanDates, totalApps = 0;
-		     int currentMonth, spanMonths;
-			 String dayOfMonthString;
-			 int getNoOfApps;
+			//calculations and display in chart
 			 for (int i = 0; i < refDate.lengthOfMonth(); i++)
 			 {
 				//get dates data
@@ -122,11 +136,11 @@ public class displayChartUtil
 				 spanDates = dayOfMonth + i;
 				 dayOfMonthString = "" +spanDates;
 				 currentMonth = today.getMonthValue();
-				 //spanMonths = currentMonth + i;
 				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE DAYOFMONTH(`Date`) = '"
 				 +spanDates+ "' AND MONTH(`Date`) = '" +currentMonth+ "'";
 				 getNoOfApps = getValue(str);
 				 totalApps += getNoOfApps;
+				 currentMonthName = today.getMonth();
 				 //construct barchart
 				 series.getData().add(new XYChart.Data(dayOfMonthString, getNoOfApps));
 			 }
@@ -144,24 +158,25 @@ public class displayChartUtil
     
     public static Node yearlyChart(GridPane someGrid, ComboBox<String> someComboBox, int someYearInt)
     {
+    	//variables and components required for the chart
     	final CategoryAxis yearXAxis = new CategoryAxis();
         final NumberAxis yearYAxis = new NumberAxis();
     	final BarChart<String,Number> yearBarChart = new BarChart<String,Number>(yearXAxis,yearYAxis); 
+    	LocalDate refDate, today;
+    	int currentMonth, spanMonths, getNoOfApps, totalApps = 0;
+		Month currentMonthName, spanMonthsName;
+		String monthName;
+		//acquiring first day of ccurrent year
+	    refDate = LocalDate.now();
+		today = LocalDate.of(refDate.getYear(), 01, 01);
     	try
 		{
 			 st = c.createStatement();
-			 //set basic barchart features
 		     XYChart.Series series = new XYChart.Series();
-			 //calculating whole weeks dates
-		     LocalDate refDate = LocalDate.now();
-			 LocalDate today = LocalDate.of(refDate.getYear(), 01, 01);
-			 int currentMonth, spanMonths, totalApps = 0;
-			 Month currentMonthName, spanMonthsName;
-			 String monthName;
-			 int getNoOfApps;
+		     //calculations and display in chart
 			 for (int i = 0; i < 12; i++)
 			 {
-				//get dates data
+				 //get dates data
 				 currentMonth = today.getMonthValue();
 				 currentMonthName = today.getMonth();
 				 spanMonths = currentMonth + i;

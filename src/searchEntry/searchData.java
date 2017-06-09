@@ -32,7 +32,7 @@ public class searchData extends Application
 		
 		try
 		{
-			//grid layout
+			//layout container
 			grid = new GridPane();
 			grid.setAlignment(Pos.TOP_CENTER);
 			grid.setHgap(10);
@@ -62,6 +62,16 @@ public class searchData extends Application
 			searchTextField = new TextField();
 			chooseDate.setShowWeekNumbers(true);
 			chooseDate.setPrefWidth(400);
+			searchBtn =  new Button("SEARCH");
+			searchHBtn = new HBox(10);
+			searchHBtn.setId("searchDataHBtn");
+			searchHBtn.setAlignment(Pos.BOTTOM_RIGHT);
+			searchHBtn.getChildren().add(searchBtn);
+			btn =  new Button("CANCEL");
+			hBtn = new HBox(10);
+			hBtn.setId("searchDataCancelHBtn");
+			hBtn.setAlignment(Pos.CENTER);
+			hBtn.getChildren().add(btn);
 			//add nodes to layout
 			grid.getColumnConstraints().addAll(col1,col2);
 			grid.add(sceneTitle, 0, 0, 2, 1);
@@ -70,13 +80,15 @@ public class searchData extends Application
 			grid.add(city, 0, 5); grid.add(state, 0, 6); grid.add(refNo, 0, 7);
 			grid.add(searchFor, 0, 8);
 			grid.add(searchTextField, 1, 8);
+			grid.add(searchHBtn, 0, 9);
+			grid.add(hBtn, 1, 9);
 			grid.setGridLinesVisible(false);
 			//dialog boxes for buttons
 			errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setTitle("Error");
 			errorAlert.setHeaderText(null);
 			errorAlert.setContentText("All necessary fields must be filled");
-			//submit button
+			//radio button events
 			dt.setOnAction(event ->
 			{
 				 searchTextField.setPromptText("YYYY-MM-DD format");
@@ -101,12 +113,7 @@ public class searchData extends Application
 			{
 				searchTextField.setPromptText("Ex. #177714B");
 			});
-			searchBtn =  new Button("SEARCH");
-			searchHBtn = new HBox(10);
-			searchHBtn.setId("searchDataHBtn");
-			searchHBtn.setAlignment(Pos.BOTTOM_RIGHT);
-			searchHBtn.getChildren().add(searchBtn);
-			grid.add(searchHBtn, 0, 9);
+			//button events
 			searchBtn.setOnAction(event -> 
 			{
 				if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty())
@@ -115,7 +122,7 @@ public class searchData extends Application
 				}
 				else
 				{
-					//getting toggle selection
+					//get toggle selection
 					String radioSelectionString = "";
 					RadioButton selectedRadioButton = (RadioButton) searchSelection.getSelectedToggle();
 					if (selectedRadioButton == dt)
@@ -153,13 +160,6 @@ public class searchData extends Application
 					searchSelection.selectToggle(null);
 				}
 			});
-			//cancel button
-			btn =  new Button("CANCEL");
-			hBtn = new HBox(10);
-			hBtn.setId("searchDataCancelHBtn");
-			hBtn.setAlignment(Pos.CENTER);
-			hBtn.getChildren().add(btn);
-			grid.add(hBtn, 1, 9);
 			btn.setOnAction(event ->
 			{
 				getWindows.getMainWindow(searchPageStage);

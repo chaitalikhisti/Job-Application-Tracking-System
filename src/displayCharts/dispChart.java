@@ -53,6 +53,33 @@ public class dispChart extends Application
 		weekNoHBtn.setAlignment(Pos.CENTER);
 		weekNoHBtn.getChildren().add(weekNo);
 		weekNoHBtn.setId("weekNo");
+		weeklyHBtn = new HBox(10);
+		weeklyHBtn.setAlignment(Pos.CENTER);
+		weeklyHBtn.getChildren().add(weeklyBtn);
+		monthlyBtn =  new Button("MONTHLY");
+		monthNo = displayChartSelections.getMonthSelection();
+		monthNoHBtn = new HBox(10);
+		monthNoHBtn.setAlignment(Pos.CENTER);
+		monthNoHBtn.getChildren().add(monthNo);
+		monthNoHBtn.setId("monthNo");
+		monthlyHBtn = new HBox(10);
+		monthlyHBtn.setAlignment(Pos.CENTER);
+		monthlyHBtn.getChildren().add(monthlyBtn);
+		yearlyBtn =  new Button("YEARLY");
+		yearMonthsNo = displayChartSelections.getYearSelection();
+		yearNoHBtn = new HBox(10);
+		yearNoHBtn.setAlignment(Pos.CENTER);
+		yearNoHBtn.getChildren().add(yearMonthsNo);
+		yearNoHBtn.setId("yearNo");
+		yearlyHBtn = new HBox(10);
+		yearlyHBtn.setAlignment(Pos.CENTER);
+		yearlyHBtn.getChildren().add(yearlyBtn);
+		backBtn =  new Button("BACK");
+		backHBtn = new HBox(10);
+		backHBtn.setId("backHBtn");
+		backHBtn.setAlignment(Pos.CENTER);
+		backHBtn.getChildren().add(backBtn);
+		//button events
 		weeklyBtn.setOnAction(event ->
 		{ 
 			if (grid.getChildren().contains(monthChart) || grid.getChildren().contains(yearChart))
@@ -70,15 +97,6 @@ public class dispChart extends Application
 				grid.add(weekChart, 0, 2, 3, 1);
 			});
 		});
-		weeklyHBtn = new HBox(10);
-		weeklyHBtn.setAlignment(Pos.CENTER);
-		weeklyHBtn.getChildren().add(weeklyBtn);
-		monthlyBtn =  new Button("MONTHLY");
-		monthNo = displayChartSelections.getMonthSelection();
-		monthNoHBtn = new HBox(10);
-		monthNoHBtn.setAlignment(Pos.CENTER);
-		monthNoHBtn.getChildren().add(monthNo);
-		monthNoHBtn.setId("monthNo");
 		monthlyBtn.setOnAction(event ->
 		{
 			if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(yearChart))
@@ -98,15 +116,6 @@ public class dispChart extends Application
 				grid.add(monthChart, 0, 2, 3, 1);
 			});
 		});
-		monthlyHBtn = new HBox(10);
-		monthlyHBtn.setAlignment(Pos.CENTER);
-		monthlyHBtn.getChildren().add(monthlyBtn);
-		yearlyBtn =  new Button("YEARLY");
-		yearMonthsNo = displayChartSelections.getYearSelection();
-		yearNoHBtn = new HBox(10);
-		yearNoHBtn.setAlignment(Pos.CENTER);
-		yearNoHBtn.getChildren().add(yearMonthsNo);
-		yearNoHBtn.setId("yearNo");
 		yearlyBtn.setOnAction(event ->
 		{
 			if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(monthChart))
@@ -125,19 +134,11 @@ public class dispChart extends Application
 				grid.add(yearChart, 0, 2, 3, 1);
 			});
 		});
-		yearlyHBtn = new HBox(10);
-		yearlyHBtn.setAlignment(Pos.CENTER);
-		yearlyHBtn.getChildren().add(yearlyBtn);
-		backBtn =  new Button("BACK");
 		backBtn.setOnAction(event ->
 		{
 			getWindows.getMainWindow(statsPageStage);
 		});
-		backHBtn = new HBox(10);
-		backHBtn.setId("backHBtn");
-		backHBtn.setAlignment(Pos.CENTER);
-		backHBtn.getChildren().add(backBtn);
-        //add elements to grid layout
+		//add elements to layout container
         grid.getColumnConstraints().addAll(col1,col2,col3);
         grid.add(sceneTitle, 0, 0, 3, 1);
         grid.add(invisibleText, 0, 1, 3, 1);
@@ -146,6 +147,7 @@ public class dispChart extends Application
         grid.add(monthlyHBtn, 1, 4);
         grid.add(yearlyHBtn, 2, 4);
         grid.add(backHBtn, 1, 6);
+        //final adding of layout
         chartScene  = new Scene(grid,800,600);    
         chartScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
         statsPageStage.setTitle("Job Application Tracking System");

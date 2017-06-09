@@ -163,6 +163,14 @@
 	-fx-font-weight: bold;
 }
 
+#noOfEntries
+{
+	-fx-text-alignment: center;
+	-fx-font-family: "Times New Roman";
+	-fx-font-size:15px;
+	-fx-font-weight: bold;
+}
+
 .table-view .column-header-background .label
 {
     -fx-background-color: transparent; 

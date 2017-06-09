@@ -23,7 +23,7 @@ public class Main extends Application
 	{		
 		try 
 		{
-			//grid layout
+			//layout container
 			grid = new GridPane();
 			grid.setAlignment(Pos.CENTER);
 			grid.setHgap(10);
@@ -34,43 +34,42 @@ public class Main extends Application
 			invisibleText.setId("invisibleText");
 			sceneTitle = new Text("Job Application Tracking System");
 			sceneTitle.setId("mainSceneTitle");
-			//add nodes to layout
-			grid.add(invisibleText, 0, 0, 3, 4); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
-			grid.add(sceneTitle, 0, 3, 3, 4); 
-			grid.setGridLinesVisible(false); //gridLines for testing purpose
-			//newEntry button
+			//buttons
 			newBtn =  new Button("New Entry");
 			newHBtn = new HBox(20);
 			newHBtn.setId("newHBtn");
 			newHBtn.setAlignment(Pos.BOTTOM_RIGHT);
 			newHBtn.getChildren().add(newBtn);
-			grid.add(newHBtn, 0, 7);
-			newBtn.setOnAction(event -> 
-			{
-				getWindows.getDataEntryWindow(welcomePageStage);
-			});
-			//searchEntry button
 			searchBtn =  new Button("Search Entry");
 			searchHBtn = new HBox(20);
 			searchHBtn.setId("searchHBtn");
 			searchHBtn.setAlignment(Pos.BOTTOM_LEFT);
 			searchHBtn.getChildren().add(searchBtn);
-			grid.add(searchHBtn, 1, 7);
-			searchBtn.setOnAction(event -> 
-			{
-				getWindows.getSearchWindow(welcomePageStage);
-			});
-			//searchEntry button
 			statsBtn =  new Button("View Statistics");
 			statsHBtn = new HBox(20);
 			statsHBtn.setId("statsHBtn");
 			statsHBtn.setAlignment(Pos.BOTTOM_LEFT);
 			statsHBtn.getChildren().add(statsBtn);
-			grid.add(statsHBtn, 2, 7);
+			//button events			
+			newBtn.setOnAction(event -> 
+			{
+				getWindows.getDataEntryWindow(welcomePageStage);
+			});
+			searchBtn.setOnAction(event -> 
+			{
+				getWindows.getSearchWindow(welcomePageStage);
+			});
 			statsBtn.setOnAction(event -> 
 			{
 				getWindows.getStatsResultsWindow(welcomePageStage);
 			});
+			//add nodes to layout container
+			grid.add(invisibleText, 0, 0, 3, 4); //PaneName.add(leafNodeName, columnNo, rowNo, columnSpan, rowSpan)
+			grid.add(sceneTitle, 0, 3, 3, 4); 
+			grid.add(newHBtn, 0, 7);
+			grid.add(searchHBtn, 1, 7);
+			grid.add(statsHBtn, 2, 7);
+			grid.setGridLinesVisible(false); //gridLines for testing purpose
 			//final adding to layout
 			welcomeScene = new Scene(grid, 800, 600);
 			welcomeScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());

@@ -23,7 +23,7 @@ import java.time.LocalDate;
 public class displayEntries extends Application 
 {
 	GridPane grid;
-	Text sceneTitle, invisibleText;
+	Text sceneTitle, invisibleText, noOfEntries;
 	private TableView dispTable = new TableView();
 	private ObservableList<ObservableList> data;
 	final VBox vBox  = new VBox();
@@ -32,7 +32,7 @@ public class displayEntries extends Application
 	HBox cancelHBtn;
 	Alert errorAlert;
 	Connection c = databaseConnection.establishConnection();
-	Statement st = null;
+	Statement st = null, st2 = null;
 	String searchTerm;	
 	LocalDate searchDate;
 	
@@ -41,7 +41,8 @@ public class displayEntries extends Application
 		try
 		{
 			searchTerm = searchTextField.getText();
-			//grid layout
+			String emptyString = "                                                            ";
+			//layout container
 			grid = new GridPane();
 			grid.setAlignment(Pos.TOP_CENTER);
 			grid.setHgap(10);
@@ -52,26 +53,42 @@ public class displayEntries extends Application
 			sceneTitle.setId("dataDisplaySceneTitle");
 			invisibleText = new Text("");
 			invisibleText.setId("invisibleText3");
-			//cancel button
+			noOfEntries = new Text("");
+			noOfEntries.setId("noOfEntries");
+			//button
 			cancelBtn =  new Button("OK");
 			cancelHBtn = new HBox(20);
 			cancelHBtn.setId("displayCancelHBtn");
 			cancelHBtn.setAlignment(Pos.CENTER);
 			cancelHBtn.getChildren().add(cancelBtn);
+			//alert
+			errorAlert = new Alert(AlertType.ERROR);
+			errorAlert.setTitle("Error");
+			errorAlert.setHeaderText(null);
+			//button event
 			cancelBtn.setOnAction(event ->
 			{
 				getWindows.getMainWindow(displayPageStage);
 			});
-			sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-			errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setTitle("Error");
-			errorAlert.setHeaderText(null);
+			//count number of entries
+			st2 = c.createStatement();
+			String str2 = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE `" +searchSelectionString+ "` LIKE '%" +searchTerm+ "%'";
+			ResultSet rs2 = st2.executeQuery(str2);
+			rs2.next();
+			int noOfApps = rs2.getInt(1);
+			if (noOfApps > 1)
+			{
+				noOfEntries.setText(emptyString+ "Found " +noOfApps+ " entries that match the search criteria");
+			}
+			else
+			{
+				noOfEntries.setText(emptyString+ "Found " +noOfApps+ " entry that match the search criteria");
+			}
 			//database query and entry in dynamic table
 			st = c.createStatement();
 			String str = "SELECT * FROM `jobdetails`.`jobdata` WHERE `" +searchSelectionString+ "` LIKE '%" +searchTerm+ "%'";
 	    	ResultSet rs = st.executeQuery(str);
 			rs.beforeFirst();
-			//dynamic table layout
 			data = FXCollections.observableArrayList();
 			/* Reference for Column and Row entries :
 			*  https://stackoverflow.com/questions/18941093/how-to-fill-up-a-tableview-with-database-data
@@ -159,15 +176,15 @@ public class displayEntries extends Application
 	                }
 	                data.add(row);
 				}
-				//testing ends
 				while(rs.next());
 				dispTable.setItems(data);
 				dispTable.setPrefSize(700, 300);
 				//add nodes to layout container
 				grid.add(sceneTitle, 0, 0);
 				grid.add(invisibleText, 0, 1);
-				grid.add(dispTable, 0, 2);
-				grid.add(cancelHBtn, 0, 3);
+				grid.add(noOfEntries, 0, 2);
+				grid.add(dispTable, 0, 3);
+				grid.add(cancelHBtn, 0, 4);
 				//final adding to layout
 				displayScene = new Scene(grid, 800, 600);
 				displayScene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());

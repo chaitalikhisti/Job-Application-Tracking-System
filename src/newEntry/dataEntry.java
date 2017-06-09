@@ -37,8 +37,7 @@ public class dataEntry extends Application
 		colon = ":";
 		try 
 		{
-			/* --- LAYOUT --- */
-			//grid layout
+			//layout container
 			grid = new GridPane();
 			grid.setAlignment(Pos.TOP_CENTER);
 			grid.setHgap(10);
@@ -77,10 +76,9 @@ public class dataEntry extends Application
 			(
 				"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
 				"HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
-				"MA", "MI", "MN", "MS", "MS", "MO", "MT", "NE", "NV", "NH",
-				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
-				"SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI",
-				"WY", "Other"
+				"MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
+				"NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+				"SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI","WY", "Other"
 	        ); 
 			stateNameComboBox.setValue("Select State");
 			stateNameComboBox.setVisibleRowCount(6);
@@ -120,6 +118,33 @@ public class dataEntry extends Application
 		    chooseDate.setDayCellFactory(dayCellFactory);
 			chooseDate.setShowWeekNumbers(true);
 			chooseDate.setPrefSize(400, 35);
+			submitBtn =  new Button("SUBMIT");
+			submitHBtn = new HBox(10);
+			submitHBtn.setId("submitHBtn");
+			submitHBtn.setAlignment(Pos.BOTTOM_RIGHT);
+			submitHBtn.getChildren().add(submitBtn);
+			cancelBtn =  new Button("CANCEL");
+			cancelHBtn = new HBox(10);
+			cancelHBtn.setId("cancelHBtn");
+			cancelHBtn.setAlignment(Pos.CENTER);
+			cancelHBtn.getChildren().add(cancelBtn);
+			//dialog boxes for buttons
+			errorAlert = new Alert(AlertType.ERROR);
+			errorAlert.setTitle("Error");
+			errorAlert.setHeaderText(null);
+			errorAlert.setContentText("All fields with * must be filled");
+			errorAlert1 = new Alert(AlertType.ERROR);
+			errorAlert1.setTitle("Error");
+			errorAlert1.setHeaderText(null);
+			errorAlert1.setContentText("A valid record for this entry already exists");
+			errorAlert2 = new Alert(AlertType.ERROR);
+			errorAlert2.setTitle("Error");
+			errorAlert2.setHeaderText(null);
+			errorAlert2.setContentText("Enter valid date");
+			submitAlert = new Alert(AlertType.CONFIRMATION);
+			submitAlert.setTitle("Successful!!!");
+			submitAlert.setHeaderText(null);
+			submitAlert.setContentText("Data successfully updated");
 			//add nodes to layout
 			grid.getColumnConstraints().addAll(col1,col2,col3);
 			grid.add(sceneTitle, 0, 0, 2, 1);
@@ -145,31 +170,10 @@ public class dataEntry extends Application
 			grid.add(commentName, 0, 8);
 			grid.add(colonText6, 1, 8);
 			grid.add(commentNameTextField, 2, 8);
-			grid.setGridLinesVisible(false);
-			//dialog boxes for buttons
-			errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setTitle("Error");
-			errorAlert.setHeaderText(null);
-			errorAlert.setContentText("All fields with * must be filled");
-			errorAlert1 = new Alert(AlertType.ERROR);
-			errorAlert1.setTitle("Error");
-			errorAlert1.setHeaderText(null);
-			errorAlert1.setContentText("A valid record for this entry already exists");
-			errorAlert2 = new Alert(AlertType.ERROR);
-			errorAlert2.setTitle("Error");
-			errorAlert2.setHeaderText(null);
-			errorAlert2.setContentText("Enter valid date");
-			submitAlert = new Alert(AlertType.CONFIRMATION);
-			submitAlert.setTitle("Successful!!!");
-			submitAlert.setHeaderText(null);
-			submitAlert.setContentText("Data successfully updated");
-			//submit button
-			submitBtn =  new Button("SUBMIT");
-			submitHBtn = new HBox(10);
-			submitHBtn.setId("submitHBtn");
-			submitHBtn.setAlignment(Pos.BOTTOM_RIGHT);
-			submitHBtn.getChildren().add(submitBtn);
 			grid.add(submitHBtn, 0, 9, 2, 1);
+			grid.add(cancelHBtn, 2, 9);
+			grid.setGridLinesVisible(false);
+			//button events
 			submitBtn.setOnAction(event -> 
 			{
 				if (compTextField.getText().isEmpty() || posTextField.getText().isEmpty() || cityNameTextField.getText().isEmpty() || stateNameComboBox.getSelectionModel().isEmpty())
@@ -208,13 +212,6 @@ public class dataEntry extends Application
 					}			
 				}
 			});
-			//cancel button
-			cancelBtn =  new Button("CANCEL");
-			cancelHBtn = new HBox(10);
-			cancelHBtn.setId("cancelHBtn");
-			cancelHBtn.setAlignment(Pos.CENTER);
-			cancelHBtn.getChildren().add(cancelBtn);
-			grid.add(cancelHBtn, 2, 9);
 			cancelBtn.setOnAction(event ->
 			{
 				getWindows.getMainWindow(logPageStage);

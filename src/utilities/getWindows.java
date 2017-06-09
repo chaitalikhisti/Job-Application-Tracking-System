@@ -3,9 +3,7 @@ package utilities;
 import application.Main;
 import displayCharts.dispChart;
 import javafx.application.Application;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import newEntry.dataEntry;
 import searchEntry.searchData;
@@ -48,7 +46,7 @@ public class getWindows extends Application
 		mainWindow.start(someStage);
 	}
 	
-	//abstract method
+	//unimplemented method
 	@Override
 	public void start(Stage primaryStage) 
 	{
