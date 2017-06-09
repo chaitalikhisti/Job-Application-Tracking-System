@@ -2,33 +2,21 @@ package displayCharts;
 
 import application.Main;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.geometry.*; // for insets, pos
+import javafx.scene.*; // for node, scene
+import javafx.scene.control.*; // for buttons, combobox
 import javafx.scene.image.Image;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*; // for columnconstraints, gridpane, Hbox
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import utilities.displayChartSelections;
-import utilities.displayChartUtil;
-import utilities.getWindows;
+import utilities.*; //for displaychartselections, displaychartutil, getwindows
 
 public class dispChart extends Application 
 {
 	GridPane grid;
     Text sceneTitle, invisibleText, invisibleText1, invisibleText2;
     Button submitBtn, backBtn, weeklyBtn, monthlyBtn, yearlyBtn;
-    HBox submitHBtn, backHBtn, weeklyHBtn, monthlyHBtn, yearlyHBtn;
+    HBox submitHBtn, backHBtn, weeklyHBtn, weekNoHBtn, monthlyHBtn, monthNoHBtn, yearlyHBtn, yearNoHBtn;
     Node weekChart, monthChart, yearChart;
     ComboBox<String> weekNo, monthNo, yearMonthsNo;
     int selectedMonthNo;
@@ -61,9 +49,10 @@ public class dispChart extends Application
 		//buttons
 		weeklyBtn =  new Button("WEEKLY");
 		weekNo = displayChartSelections.getWeekSelection();
-		//String weekName = weekNo.getValue();
-		//String stateName = someStateComboBox.getValue();
-		//ComboBox<String> weekNo = new ComboBox<String>();
+		weekNoHBtn = new HBox(10);
+		weekNoHBtn.setAlignment(Pos.CENTER);
+		weekNoHBtn.getChildren().add(weekNo);
+		weekNoHBtn.setId("weekNo");
 		weeklyBtn.setOnAction(event ->
 		{ 
 			if (grid.getChildren().contains(monthChart) || grid.getChildren().contains(yearChart))
@@ -71,7 +60,9 @@ public class dispChart extends Application
 				grid.getChildren().remove(monthChart);
 				grid.getChildren().remove(yearChart);
 			}
-			grid.add(weekNo, 0, 5);
+			grid.getChildren().remove(monthNoHBtn);
+			grid.getChildren().remove(yearNoHBtn);
+			grid.add(weekNoHBtn, 0, 5);
 			weekNo.setOnAction((event1) -> 
 			{
 				weekChart = displayChartUtil.weeklyChart(grid, weekNo);			
@@ -83,20 +74,24 @@ public class dispChart extends Application
 		weeklyHBtn.getChildren().add(weeklyBtn);
 		monthlyBtn =  new Button("MONTHLY");
 		monthNo = displayChartSelections.getMonthSelection();
+		monthNoHBtn = new HBox(10);
+		monthNoHBtn.setAlignment(Pos.CENTER);
+		monthNoHBtn.getChildren().add(monthNo);
+		monthNoHBtn.setId("monthNo");
 		monthlyBtn.setOnAction(event ->
 		{
-			//monthChart = displayChartUtil.monthlyChart();
 			if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(yearChart))
 			{
 				grid.getChildren().remove(weekChart);
 				grid.getChildren().remove(yearChart);
 			}
-			grid.add(monthNo, 1, 5);
+			grid.getChildren().remove(weekNoHBtn);
+			grid.getChildren().remove(yearNoHBtn);
+			grid.add(monthNoHBtn, 1, 5);
 			monthNo.setOnAction((event1) -> 
 			{
 				String monthName = monthNo.getValue();
 				int monthInt = getMonthNo(monthName);
-				//System.out.println(monthName+ " " +monthInt);
 				monthChart = displayChartUtil.monthlyChart(grid, monthNo, monthInt, monthName);	
 				grid.add(monthChart, 0, 2, 3, 1);
 			});
@@ -106,26 +101,26 @@ public class dispChart extends Application
 		monthlyHBtn.getChildren().add(monthlyBtn);
 		yearlyBtn =  new Button("YEARLY");
 		yearMonthsNo = displayChartSelections.getYearSelection();
+		yearNoHBtn = new HBox(10);
+		yearNoHBtn.setAlignment(Pos.CENTER);
+		yearNoHBtn.getChildren().add(yearMonthsNo);
+		yearNoHBtn.setId("yearNo");
 		yearlyBtn.setOnAction(event ->
 		{
-			//grid.add(yearMonthsNo, 2, 5);
-			//yearChart = displayChartUtil.yearlyChart();
 			if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(monthChart))
 			{
 				grid.getChildren().remove(weekChart);
 				grid.getChildren().remove(monthChart);
 			}
-			grid.add(yearMonthsNo, 2, 5);
+			grid.getChildren().remove(weekNoHBtn);
+			grid.getChildren().remove(monthNoHBtn);
+			grid.add(yearNoHBtn, 2, 5);
 			yearMonthsNo.setOnAction((event1) -> 
 			{
-//				String monthName = monthNo.getValue();
-//				int monthInt = getMonthNo(monthName);
 				int yearInt = Integer.parseInt(yearMonthsNo.getValue());
-				//System.out.println(monthName+ " " +monthInt);
 				monthChart = displayChartUtil.yearlyChart(grid, yearMonthsNo, yearInt);	
 				grid.add(yearChart, 0, 2, 3, 1);
 			});
-			//grid.add(yearChart, 0, 2, 3, 1);
 		});
 		yearlyHBtn = new HBox(10);
 		yearlyHBtn.setAlignment(Pos.CENTER);

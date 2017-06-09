@@ -1,24 +1,13 @@
 package utilities;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
-
 import javafx.scene.Node;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*; // for barchart, categpryaxis, numberaxis, XYchart
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
+import java.sql.*; // for connection, resultset, statement
+import java.time.*; // for localdate, month, period
+import java.time.temporal.*; // for temporalfield, weekfields
+import java.util.Locale;
 
 public class displayChartUtil 
 {
@@ -48,6 +37,7 @@ public class displayChartUtil
 	public static void chartSetup(BarChart<String,Number> someChart)
 	{
 		someChart.setMinHeight(275);
+		someChart.setMaxHeight(300);
 		someChart.setLegendVisible(false);
 		someChart.setCategoryGap(3);
 	}

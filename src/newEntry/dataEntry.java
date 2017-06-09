@@ -83,6 +83,7 @@ public class dataEntry extends Application
 				"WY" 
 	        ); 
 			stateNameComboBox.setValue("Select State");
+			stateNameComboBox.setVisibleRowCount(6);
 			stateNameComboBox.setPrefSize(400, 35);
 			commentName = new Label("Comment");
 			colonText6 = new Label("  " +colon);

@@ -35,6 +35,7 @@
 	-fx-border-color: white;
 }
 
+
 /* MAIN WINDOW STYLING */
 #mainSceneTitle
 {
@@ -244,7 +245,22 @@
   -fx-tick-label-font-family: "Times New Roman";
 }
 
+#weekNo
+{
+	-fx-padding: 0px 40px;
+}
+
+#monthNo
+{
+	-fx-padding: 0px 50px;
+}
+
+#yearNo
+{
+	-fx-padding: 0px 50px;
+}
+
 #backHBtn
 {
-	-fx-padding: 50px 50px;
+	-fx-padding: 30px 50px;
 }
