@@ -6,12 +6,16 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.GridPane;
 
 public class displayChartUtil 
 {
@@ -21,16 +25,12 @@ public class displayChartUtil
 	static Statement st2 = null;
 	static ResultSet rs;
 	static int val;
-	static String str;
-//	final static CategoryAxis xAxis = new CategoryAxis();
-//    final static NumberAxis yAxis = new NumberAxis();
-    //final static BarChart<String,Number> barChart = new BarChart<String,Number>(xAxis,yAxis); 
+	static String str; 
 	
 	public static int getValue(String someString)
 	{
 		 try
 		 {
-			 //str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial` WHERE `Date` = '" +someLocalDate+ "'";
 			 rs = st.executeQuery(someString);
 			 rs.next();
 			 val = rs.getInt(1);
@@ -49,11 +49,16 @@ public class displayChartUtil
 		someChart.setCategoryGap(3);
 	}
     
-    public static Node weeklyChart()
+    public static Node weeklyChart(GridPane someGrid, ComboBox<String> someComboBox)
 	{
     	final CategoryAxis weekXAxis = new CategoryAxis();
         final NumberAxis weekYAxis = new NumberAxis();
     	final BarChart<String,Number> weekBarChart = new BarChart<String,Number>(weekXAxis,weekYAxis); 
+		String weekName = someComboBox.getValue();
+		System.out.println(weekName);
+		String regex = "Week ";
+		weekName = weekName.replaceAll(regex, "");
+		System.out.println("edited week name: " +weekName);		
     	try
 		{
 			 st = c.createStatement();
@@ -61,21 +66,23 @@ public class displayChartUtil
 			 //calculating whole weeks dates
 			 LocalDate today;
 			 LocalDate yesterday;
-			 String weekDay, weekDay2;
+			 String weekDay;
 			 int getNoOfApps;
 			 for (int i = 0; i < 7; i++)
 			 {
 				//get dates data
 				 today = LocalDate.now();
 				 yesterday = today.minus(Period.ofDays(i));
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial` WHERE `Date` = '" +yesterday+ "'";
+				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE `Date` = '" +yesterday+ "'";
 				 getNoOfApps = getValue(str);
 				 weekDay = yesterday.getDayOfWeek().name();
 				 String upToNCharacters = weekDay.substring(0, Math.min(weekDay.length(), 3));
 				//construct barchart
 				 series.getData().add(new XYChart.Data(upToNCharacters, getNoOfApps));
 			 }
+			 someGrid.getChildren().remove(someComboBox);
 			 chartSetup(weekBarChart);
+			 weekBarChart.setTitle("Application statistics for Week :");
 			 weekBarChart.getData().add(series);
 		}
 		catch (Exception e)
@@ -85,7 +92,7 @@ public class displayChartUtil
 		return weekBarChart;
 	}
     
-    public static Node monthlyChart()
+    public static Node monthlyChart(GridPane someGrid, ComboBox<String> someComboBox, int someMonthInt, String someMonthName)
 	{
     	final CategoryAxis monthXAxis = new CategoryAxis();
         final NumberAxis monthYAxis = new NumberAxis();
@@ -95,9 +102,10 @@ public class displayChartUtil
 			 st = c.createStatement();
 		     XYChart.Series series = new XYChart.Series();
 			 //calculating whole weeks dates
-			 LocalDate refDate = LocalDate.now();
-			 LocalDate today = LocalDate.of(refDate.getYear(), refDate.getMonthValue(), 01);
-			 int dayOfMonth, spanDates;
+		     LocalDate refDate = LocalDate.now();
+			 //LocalDate today = LocalDate.of(refDate.getYear(), refDate.getMonthValue(), 01);
+		     LocalDate today = LocalDate.of(refDate.getYear(), someMonthInt, 01);
+		     int dayOfMonth, spanDates;
 			 String dayOfMonthString;
 			 int getNoOfApps;
 			 for (int i = 0; i < refDate.lengthOfMonth(); i++)
@@ -106,12 +114,14 @@ public class displayChartUtil
 				 dayOfMonth = today.getDayOfMonth();
 				 spanDates = dayOfMonth + i;
 				 dayOfMonthString = "" +spanDates;
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial` WHERE DAYOFMONTH(`Date`) = '" +spanDates+ "'";
+				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE DAYOFMONTH(`Date`) = '" +spanDates+ "'";
 				 getNoOfApps = getValue(str);
 				 //construct barchart
 				 series.getData().add(new XYChart.Data(dayOfMonthString, getNoOfApps));
 			 }
+			 someGrid.getChildren().remove(someComboBox);
 			 chartSetup(monthBarChart);
+			 monthBarChart.setTitle("Applications in " +someMonthName);
 			 monthBarChart.getData().add(series);
 		}
 		catch (Exception e)
@@ -121,7 +131,7 @@ public class displayChartUtil
     	return monthBarChart;
 	}
     
-    public static Node yearlyChart()
+    public static Node yearlyChart(GridPane someGrid, ComboBox<String> someComboBox, int someYearInt)
     {
     	final CategoryAxis yearXAxis = new CategoryAxis();
         final NumberAxis yearYAxis = new NumberAxis();
@@ -145,14 +155,16 @@ public class displayChartUtil
 				 currentMonthName = today.getMonth();
 				 spanMonths = currentMonth + i;
 				 spanMonthsName = currentMonthName.plus(i);
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial` WHERE MONTH(`Date`) = '" +spanMonths+ "'";
+				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE MONTH(`Date`) = '" +spanMonths+ "'";
 				 getNoOfApps = getValue(str);
 				 monthName = spanMonthsName.name();
 				 String smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
 				 //construct barchart
 				 series.getData().add(new XYChart.Data(smallMonthName, getNoOfApps));
 			 }
+			 someGrid.getChildren().remove(someComboBox);
 			 chartSetup(yearBarChart);
+			 yearBarChart.setTitle("Applications in " +someYearInt);
 			 yearBarChart.getData().add(series);
 		}
 		catch (Exception e)

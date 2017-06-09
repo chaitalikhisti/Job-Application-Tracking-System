@@ -68,7 +68,7 @@ public class displayEntries extends Application
 			errorAlert.setHeaderText(null);
 			//database query and entry in dynamic table
 			st = c.createStatement();
-			String str = "SELECT * FROM `jobdetails`.`jobdatatrial` WHERE `" +searchSelectionString+ "` LIKE '%" +searchTerm+ "%'";
+			String str = "SELECT * FROM `jobdetails`.`jobdata` WHERE `" +searchSelectionString+ "` LIKE '%" +searchTerm+ "%'";
 	    	ResultSet rs = st.executeQuery(str);
 			rs.beforeFirst();
 			//dynamic table layout
@@ -142,7 +142,7 @@ public class displayEntries extends Application
 			//data rows dynamic
 			if (!rs.next())
 			{
-				String errorString = "No records found for " +searchTerm+ " in " +searchSelectionString+ "...Please try again..";
+				String errorString = "No records found for given " +searchSelectionString+ "...Please try again..";
 				errorAlert.setContentText(errorString);
 				errorAlert.showAndWait();
 			}

@@ -35,7 +35,7 @@ public class dataEntryUtil
 		try
 		{
 			st2 = c.createStatement();
-			String searchString = "SELECT * FROM `jobdetails`.`jobdatatrial` WHERE " + 
+			String searchString = "SELECT * FROM `jobdetails`.`jobdata` WHERE " + 
 					"(`Company` = '" +compName+ "' AND `Position` = '" +posName+ 
 					"' AND `City` = '" +cityName+ "' AND `State` = '"+ stateName+ "')";
 			ResultSet rs = st2.executeQuery(searchString);
@@ -66,7 +66,7 @@ public class dataEntryUtil
 			try
 			{
 				st = c.createStatement();
-				ResultSet rs = st.executeQuery("SELECT COUNT(`App No`) FROM `jobdetails`.`jobdatatrial`");
+				ResultSet rs = st.executeQuery("SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata`");
 				if (rs != null)
 				{
 					rs.next();

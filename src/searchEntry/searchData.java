@@ -75,7 +75,7 @@ public class searchData extends Application
 			errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setTitle("Error");
 			errorAlert.setHeaderText(null);
-			errorAlert.setContentText("All fields with * must be filled");
+			errorAlert.setContentText("All necessary fields must be filled");
 			//submit button
 			dt.setOnAction(event ->
 			{
