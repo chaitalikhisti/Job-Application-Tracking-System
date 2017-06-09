@@ -93,14 +93,14 @@ public class displayEntries extends Application
                 else if (rs.getMetaData().getColumnName(i+1).equals("Company"))
                 {
                 	col = new TableColumn("Company");
-                	col.setPrefWidth(100);
-                	col.setMaxWidth(150);
+                	col.setPrefWidth(175);
+                	col.setMaxWidth(200);
                 }
                 else if (rs.getMetaData().getColumnName(i+1).equals("Position"))
                 {
                 	col = new TableColumn("Position");
-                	col.setMinWidth(150);
-                	col.setMaxWidth(200);
+                	col.setMinWidth(250);
+                	col.setMaxWidth(275);
                 }
                 else if (rs.getMetaData().getColumnName(i+1).equals("City"))
                 {

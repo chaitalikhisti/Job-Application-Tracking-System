@@ -25,7 +25,7 @@ public class dataEntry extends Application
 	String asterisk, colon;
 	final ComboBox<String> stateNameComboBox = new ComboBox<String>();
 	DatePicker chooseDate;
-	Alert errorAlert, errorAlert1, submitAlert;
+	Alert errorAlert, errorAlert1, errorAlert2, submitAlert;
 	Button submitBtn, cancelBtn;
 	HBox submitHBtn, cancelHBtn;
 	Scene dataEntryScene;
@@ -80,7 +80,7 @@ public class dataEntry extends Application
 				"MA", "MI", "MN", "MS", "MS", "MO", "MT", "NE", "NV", "NH",
 				"NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
 				"SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI",
-				"WY" 
+				"WY", "Other"
 	        ); 
 			stateNameComboBox.setValue("Select State");
 			stateNameComboBox.setVisibleRowCount(6);
@@ -92,6 +92,7 @@ public class dataEntry extends Application
 			dateName = new Label("Application Date");
 			colonText7 = new Label(" "+colon);
 			chooseDate = new DatePicker();
+			chooseDate.setPromptText("MM/DD/YYYY");
 			/*
 			 *  Reference for Callback function of date-picker:
 			 *  https://docs.oracle.com/javase/8/javafx/user-interface-tutorial/date-picker.htm
@@ -154,6 +155,10 @@ public class dataEntry extends Application
 			errorAlert1.setTitle("Error");
 			errorAlert1.setHeaderText(null);
 			errorAlert1.setContentText("A valid record for this entry already exists");
+			errorAlert2 = new Alert(AlertType.ERROR);
+			errorAlert2.setTitle("Error");
+			errorAlert2.setHeaderText(null);
+			errorAlert2.setContentText("Enter valid date");
 			submitAlert = new Alert(AlertType.CONFIRMATION);
 			submitAlert.setTitle("Successful!!!");
 			submitAlert.setHeaderText(null);
@@ -176,6 +181,10 @@ public class dataEntry extends Application
 					if (chooseDate.getValue() == null)
 					{
 						chooseDate.setValue(LocalDate.now());
+					}
+					else if (chooseDate.getValue().isAfter(LocalDate.now()))
+					{
+						errorAlert2.showAndWait();
 					}
 					else
 					{

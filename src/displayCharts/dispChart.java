@@ -65,6 +65,7 @@ public class dispChart extends Application
 			grid.add(weekNoHBtn, 0, 5);
 			weekNo.setOnAction((event1) -> 
 			{
+				grid.getChildren().remove(weekChart);
 				weekChart = displayChartUtil.weeklyChart(grid, weekNo);			
 				grid.add(weekChart, 0, 2, 3, 1);
 			});
@@ -90,6 +91,7 @@ public class dispChart extends Application
 			grid.add(monthNoHBtn, 1, 5);
 			monthNo.setOnAction((event1) -> 
 			{
+				grid.getChildren().remove(monthChart);
 				String monthName = monthNo.getValue();
 				int monthInt = getMonthNo(monthName);
 				monthChart = displayChartUtil.monthlyChart(grid, monthNo, monthInt, monthName);	
@@ -117,8 +119,9 @@ public class dispChart extends Application
 			grid.add(yearNoHBtn, 2, 5);
 			yearMonthsNo.setOnAction((event1) -> 
 			{
+				grid.getChildren().remove(yearChart);
 				int yearInt = Integer.parseInt(yearMonthsNo.getValue());
-				monthChart = displayChartUtil.yearlyChart(grid, yearMonthsNo, yearInt);	
+				yearChart = displayChartUtil.yearlyChart(grid, yearMonthsNo, yearInt);	
 				grid.add(yearChart, 0, 2, 3, 1);
 			});
 		});
@@ -138,7 +141,6 @@ public class dispChart extends Application
         grid.getColumnConstraints().addAll(col1,col2,col3);
         grid.add(sceneTitle, 0, 0, 3, 1);
         grid.add(invisibleText, 0, 1, 3, 1);
-        //grid.add(displayChartUtil.weeklyChart(), 0, 2, 3, 1);
         grid.add(invisibleText1, 0, 3, 3, 1);
         grid.add(weeklyHBtn, 0, 4);
         grid.add(monthlyHBtn, 1, 4);

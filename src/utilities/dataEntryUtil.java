@@ -73,7 +73,7 @@ public class dataEntryUtil
 					appNo = rs.getInt(1);
 					appNo++;
 					st1 = c.createStatement();
-					String str = "INSERT INTO `jobdetails`.`jobdatatrial` " + 
+					String str = "INSERT INTO `jobdetails`.`jobdata` " + 
 					"(`App No`, `Date`, `Company`, `Position`, `City`, `State`, `Ref No`, `Comments`) " + 
 					"VALUES ('" +appNo+ "', '" +date+ "', '" +compName+ "', '" +posName+
 					"', '" +cityName+ "', '"+ stateName+ "', '" +refNo+ "', '" +commentDetails+ "')";
@@ -83,7 +83,7 @@ public class dataEntryUtil
 				{
 					System.out.println("Check again");
 				}
-				c.close();
+				//c.close();
 			}
 			catch (Exception e)
 			{
