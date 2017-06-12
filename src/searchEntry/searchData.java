@@ -22,7 +22,7 @@ public class searchData extends Application
 		Text sceneTitle;
 		Label searchBy, searchFor;
 		final ToggleGroup searchSelection = new ToggleGroup();
-		RadioButton dt, cn, pos, city, state, refNo;
+		RadioButton dt, cn, pos, city, state, refNo, comm;
 		TextField searchTextField;
 		final DatePicker chooseDate = new DatePicker();;
 		Alert errorAlert;
@@ -58,6 +58,8 @@ public class searchData extends Application
 			state.setToggleGroup(searchSelection);
 			refNo = new RadioButton("Application No.");
 			refNo.setToggleGroup(searchSelection);
+			comm = new RadioButton("Comments");
+			comm.setToggleGroup(searchSelection);
 			searchFor = new Label("SEARCH FOR : ");
 			searchTextField = new TextField();
 			chooseDate.setShowWeekNumbers(true);
@@ -76,12 +78,17 @@ public class searchData extends Application
 			grid.getColumnConstraints().addAll(col1,col2);
 			grid.add(sceneTitle, 0, 0, 2, 1);
 			grid.add(searchBy, 0, 1, 2, 1);
-			grid.add(dt, 0, 2); grid.add(cn, 0, 3); grid.add(pos, 0, 4); 
-			grid.add(city, 0, 5); grid.add(state, 0, 6); grid.add(refNo, 0, 7);
-			grid.add(searchFor, 0, 8);
-			grid.add(searchTextField, 1, 8);
-			grid.add(searchHBtn, 0, 9);
-			grid.add(hBtn, 1, 9);
+			//grid.add(dt, 0, 2); grid.add(cn, 0, 3); grid.add(pos, 0, 4); 
+			//grid.add(city, 0, 5); grid.add(state, 0, 6); grid.add(refNo, 0, 7);
+			//grid.add(comm, 0, 8);
+			grid.add(dt, 0, 2); grid.add(cn, 1, 2); 
+			grid.add(pos, 0, 3); grid.add(city, 1, 3); 
+			grid.add(state, 0, 4); grid.add(refNo, 1, 4);
+			grid.add(comm, 0, 5);
+			grid.add(searchFor, 0, 9);
+			grid.add(searchTextField, 1, 9);
+			grid.add(searchHBtn, 0, 10);
+			grid.add(hBtn, 1, 10);
 			grid.setGridLinesVisible(false);
 			//dialog boxes for buttons
 			errorAlert = new Alert(AlertType.ERROR);
@@ -112,6 +119,10 @@ public class searchData extends Application
 			refNo.setOnAction(event ->
 			{
 				searchTextField.setPromptText("Ex. #177714B");
+			});
+			comm.setOnAction(event ->
+			{
+				searchTextField.setPromptText("Ex. Recruiter name, agency");
 			});
 			//button events
 			searchBtn.setOnAction(event -> 
@@ -148,6 +159,10 @@ public class searchData extends Application
 					else if (selectedRadioButton == refNo)
 					{
 						radioSelectionString = "Ref No";
+					}
+					else if (selectedRadioButton == comm)
+					{
+						radioSelectionString = "Comments";
 					}
 					else
 					{
