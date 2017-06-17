@@ -38,7 +38,7 @@ public class dispChart extends Application
 	    ColumnConstraints col3 = new ColumnConstraints();
 	    col3.setPercentWidth(25);
 		//nodes
-		sceneTitle = new Text("               Application Statics");
+		sceneTitle = new Text("               Application Statistics");
 		sceneTitle.setId("chartDisplaySceneTitle");
 		invisibleText = new Text("");
 		invisibleText.setId("invisibleText4");

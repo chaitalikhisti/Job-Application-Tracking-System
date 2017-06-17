@@ -163,9 +163,9 @@ public class displayChartUtil
     	int currentMonth, spanMonths, getNoOfApps, totalApps = 0;
 		Month currentMonthName, spanMonthsName;
 		String monthName;
-		//acquiring first day of ccurrent year
-	    refDate = LocalDate.now();
-		today = LocalDate.of(refDate.getYear(), 01, 01);
+		//acquiring first day of current year
+	    //refDate = LocalDate.now();
+		today = LocalDate.of(someYearInt, 01, 01);
     	try
 		{
 			 st = c.createStatement();
@@ -178,7 +178,8 @@ public class displayChartUtil
 				 currentMonthName = today.getMonth();
 				 spanMonths = currentMonth + i;
 				 spanMonthsName = currentMonthName.plus(i);
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE MONTH(`Date`) = '" +spanMonths+ "'";
+				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE MONTH(`Date`) = '" +spanMonths+ "'"
+				 		+ " AND YEAR(`Date`) = '" +someYearInt+ "'";
 				 getNoOfApps = getValue(str);
 				 totalApps += getNoOfApps;
 				 monthName = spanMonthsName.name();
