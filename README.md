@@ -10,24 +10,24 @@ SQL Server
 ### Application packages and their contents:
 
 #### application package
-* Main.java
+##### Main.java
 Java class with the main method having options of data entry, data search and statistical display of application count.
-* application.css
+##### application.css
 CSS file that contains styling for elements in all classes
 #### newEntry package
-*  dataEntry.java
+#####  dataEntry.java
 Java class containing data entry fields with company, position, city, position and date being mandatory fields whereas application ID and comments being the optional fields. Comments can include details of the recruiter details, people who have referred, job agency names (Glassdoor, Indeed, …), etc. preferably in a concise manner.
 #### searchEntry package
-* searchData.java
+##### searchData.java
 Java class containing data search criteria like date of application, company, position, city, state, application ID and comments with search text field.
 #### searchDisplay package
-* displayEntries.java
+##### displayEntries.java
 Java class using TableView component of JavaFX for displaying the data which matches the search criteria specified
 #### displayCharts package
-* displayChart.java
+##### displayChart.java
 Java class that provides the count of applications on a weekly, monthly and yearly basis depending on user choice
 #### utilities package
-* databaseConnection.java
+##### databaseConnection.java
 Java class for establishing connection with the database required for data entry and search transactions.
 Enter your server location by replacing `//dbURL` in `jdbc:mysql://dbURL` and enter username and password using during SQL Server setup for the resppective fields in
 ```
@@ -54,13 +54,13 @@ CREATE TABLE `jobdata` (
   PRIMARY KEY (`App No`),
   UNIQUE KEY `App No_UNIQUE` (`App No`));
   ```
-* getWindows.java
+##### getWindows.java
 Java class with methods for loading windows based on user selection
-* dataEntryUtil.java
+##### dataEntryUtil.java
 Java class for supporting methods with SQL queries for performing data entry in the database
-* displayChartSelections.java
+##### displayChartSelections.java
 Java class for selection dropdowns in the view statistics window
-* displayChartUtil.java
+##### displayChartUtil.java
 Java class with supporting methods to extract required data from database and display on a graphical chart platform.
  
 ## License
@@ -68,4 +68,4 @@ This project is licensed under the MIT License - see the [License.txt](LICENSE.t
 
 ## Acknowledgement
 The copyrights of the icons used are limited to the respective owners and so are few parts of the source code. 
-Currently, the application primarily meets the basic requirements of logging the job application details excluding the functionalities of editing or deleting the data once entered. These can be developed with future versions of this application.
+Currently, the application primarily meets the basic requirements of logging the job application details, excluding the functionalities of editing or deleting the data once entered. These can be developed with future versions of this application.
