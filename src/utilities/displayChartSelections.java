@@ -15,9 +15,6 @@ public class displayChartSelections
     {
     	final ComboBox<String> weekNoComboBox = new ComboBox<String>();
     	weekNoComboBox.setVisibleRowCount(4);
-    	/*
-    	 *  TESTING BEGINS
-    	 */
     	//declare variables
     	LocalDate refDate, refEndDate;
     	WeekFields weekField = WeekFields.of(Locale.getDefault());
@@ -29,8 +26,7 @@ public class displayChartSelections
       	int lastWeek;
   		refDate = LocalDate.now();
 		refEndDate = LocalDate.of(refDate.getYear(), 12, 31);
-    	//calculate total number of weeks
-		//get no. of weeks in the year
+    	//calculate total number of weeks in a year
 		refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
 		TemporalField fieldUS = WeekFields.of(Locale.US).dayOfWeek();
 		refWeekStart = refStartDate.with(fieldUS, 1);
@@ -48,22 +44,6 @@ public class displayChartSelections
     		weekNoComboBox.getItems().add(str);
     	}
     	weekNoComboBox.setValue("Week");
-    	/*
-    	 *  TESTING ENDS
-    	 */
-//        LocalDate refDate, refEndDate;
-//        int lastWeek;
-//    	refDate = LocalDate.now();
-//		refEndDate = LocalDate.of(refDate.getYear(), 12, 31);
-//		//get no. of weeks in the year
-//		WeekFields weekField = WeekFields.of(Locale.getDefault());
-//		lastWeek = refEndDate.get(weekField.weekOfYear()) - 1; // reduced by 1 considering sunday
-//		for (int i = 1; i <= lastWeek; i++)
-//    	{
-//    		String str = "Week " +i;
-//    		weekNoComboBox.getItems().add(str);
-//    	}
-//    	weekNoComboBox.setValue("Week");
     	return weekNoComboBox;
     }
     

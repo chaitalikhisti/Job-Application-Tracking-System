@@ -42,44 +42,13 @@ public class displayChartUtil
 		someChart.setCategoryGap(3);
 	}
     
-    //public static Node weeklyChart(GridPane someGrid, ComboBox<String> someComboBox)
-	public static Node weeklyChart(GridPane someGrid, ComboBox someComboBox)
+    public static Node weeklyChart(GridPane someGrid, ComboBox<String> someComboBox)
 	{
     	//variables and components required for the chart
     	final CategoryAxis weekXAxis = new CategoryAxis();
         final NumberAxis weekYAxis = new NumberAxis();
     	final BarChart<String,Number> weekBarChart = new BarChart<String,Number>(weekXAxis,weekYAxis); 
-//    	LocalDate refDate, refStartDate, refWeekStart, yesterday;
-//    	LocalDate startDate = null, endDate = null, forLoopStartDate = null;
-//    	Month currentMonth;
-//		String weekName, regex, smallStartWeekDay, startDateDetails, smallEndWeekDay;
-//		String endDateDetails, weekDay, monthName, smallMonthName, dayAndDate;
-//		int getNoOfApps, totalApps = 0, currentDate;
-//		//getting the week number and start-end dates
-//    	weekName = someComboBox.getValue();
-//		regex = "Week ";
-//		weekName = weekName.replaceAll(regex, "");
-//		int weekInt = Integer.parseInt(weekName);
-//		refDate = LocalDate.now();
-//		refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
-//		TemporalField fieldUS = WeekFields.of(Locale.US).dayOfWeek();
-//		refWeekStart = refStartDate.with(fieldUS, 1);
-//		//acquiring start and end dates for the selected week
-//		for (int i = 0; i < weekInt; i++)
-//		{
-//			startDate = refWeekStart;
-//			endDate = startDate.plus(Period.ofDays(6));
-//			refWeekStart = endDate.plus(Period.ofDays(1));
-//		}
-//		smallStartWeekDay = startDate.getMonth().name().substring(0, Math.min(startDate.getMonth().name().length(), 3));
-//		startDateDetails = startDate.getDayOfMonth()+ " " +smallStartWeekDay+ " " +startDate.getYear();
-//		smallEndWeekDay = endDate.getMonth().name().substring(0, Math.min(endDate.getMonth().name().length(), 3));
-//		endDateDetails = endDate.getDayOfMonth()+ " " +smallEndWeekDay+ " " +endDate.getYear();		
-//		forLoopStartDate = startDate;
-    	/*
-    	 *  TESTING BEGINS
-    	 */
-    	int weekInt = someComboBox.getSelectionModel().getSelectedIndex();
+    	int weekInt = someComboBox.getSelectionModel().getSelectedIndex() + 1;
     	LocalDate refDate, refStartDate, refWeekStart, yesterday;
     	LocalDate startDate = null, endDate = null, forLoopStartDate = null;
     	Month currentMonth;
@@ -103,9 +72,6 @@ public class displayChartUtil
 		smallEndWeekDay = endDate.getMonth().name().substring(0, Math.min(endDate.getMonth().name().length(), 3));
 		endDateDetails = endDate.getDayOfMonth()+ " " +smallEndWeekDay+ " " +endDate.getYear();		
 		forLoopStartDate = startDate;
-    	/*
-    	 *  TESTING ENDS
-    	 */
 		try
 		{
 			 st = c.createStatement();
