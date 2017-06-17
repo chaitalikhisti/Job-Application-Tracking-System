@@ -1,6 +1,9 @@
 package utilities;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 
@@ -12,19 +15,55 @@ public class displayChartSelections
     {
     	final ComboBox<String> weekNoComboBox = new ComboBox<String>();
     	weekNoComboBox.setVisibleRowCount(4);
-        LocalDate refDate, refEndDate;
-        int lastWeek;
-    	refDate = LocalDate.now();
+    	/*
+    	 *  TESTING BEGINS
+    	 */
+    	//declare variables
+    	LocalDate refDate, refEndDate;
+    	WeekFields weekField = WeekFields.of(Locale.getDefault());
+		LocalDate refStartDate, refWeekStart, yesterday;
+    	LocalDate startDate = null, endDate = null, forLoopStartDate = null;
+    	Month currentMonth;
+		String weekName, regex, smallStartWeekDay, startDateDetails, smallEndWeekDay;
+		String endDateDetails, weekDay, monthName, smallMonthName, dayAndDate;
+      	int lastWeek;
+  		refDate = LocalDate.now();
 		refEndDate = LocalDate.of(refDate.getYear(), 12, 31);
+    	//calculate total number of weeks
 		//get no. of weeks in the year
-		WeekFields weekField = WeekFields.of(Locale.getDefault());
+		refStartDate = LocalDate.of(refDate.getYear(), 01, 01);
+		TemporalField fieldUS = WeekFields.of(Locale.US).dayOfWeek();
+		refWeekStart = refStartDate.with(fieldUS, 1);
 		lastWeek = refEndDate.get(weekField.weekOfYear()) - 1; // reduced by 1 considering sunday
 		for (int i = 1; i <= lastWeek; i++)
     	{
-    		String str = "Week " +i;
+			startDate = refWeekStart;
+			smallStartWeekDay = startDate.getMonth().name().substring(0, Math.min(startDate.getMonth().name().length(), 3));
+			startDateDetails = smallStartWeekDay+ " " +startDate.getDayOfMonth();
+			endDate = startDate.plus(Period.ofDays(6));
+			smallEndWeekDay = endDate.getMonth().name().substring(0, Math.min(endDate.getMonth().name().length(), 3));
+			endDateDetails = smallEndWeekDay+ " " +endDate.getDayOfMonth();	
+			refWeekStart = endDate.plus(Period.ofDays(1));
+			String str = startDateDetails+ " - " +endDateDetails;
     		weekNoComboBox.getItems().add(str);
     	}
     	weekNoComboBox.setValue("Week");
+    	/*
+    	 *  TESTING ENDS
+    	 */
+//        LocalDate refDate, refEndDate;
+//        int lastWeek;
+//    	refDate = LocalDate.now();
+//		refEndDate = LocalDate.of(refDate.getYear(), 12, 31);
+//		//get no. of weeks in the year
+//		WeekFields weekField = WeekFields.of(Locale.getDefault());
+//		lastWeek = refEndDate.get(weekField.weekOfYear()) - 1; // reduced by 1 considering sunday
+//		for (int i = 1; i <= lastWeek; i++)
+//    	{
+//    		String str = "Week " +i;
+//    		weekNoComboBox.getItems().add(str);
+//    	}
+//    	weekNoComboBox.setValue("Week");
     	return weekNoComboBox;
     }
     

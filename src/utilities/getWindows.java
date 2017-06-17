@@ -39,6 +39,12 @@ public class getWindows extends Application
 		mainWindow.start(someStage, someString, someTextField);
 	}
 	
+	public static void getSearchResultsWindow(Stage someStage) 
+	{
+		displayEntries mainWindow = new displayEntries();
+		mainWindow.alternativeStart(someStage);	
+	}
+	
 	//method to load Statistical Analysis Stage
 	public static void getStatsResultsWindow(Stage someStage)
 	{

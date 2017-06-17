@@ -5,7 +5,7 @@
 /* GENERAL STYLING */
 .root
 {
-	-fx-background-image: url("background.png");
+	-fx-background-color: linear-gradient(to bottom, #45B39D, #34495E);
 }
 
 .label
@@ -138,12 +138,12 @@
 
 #searchDataHBtn
 {
-	-fx-padding: 30px 50px;
+	-fx-padding: 50px 50px;
 }
 
 #searchDataCancelHBtn
 {
-	-fx-padding: 30px 100px;
+	-fx-padding: 50px 50px;
 }
 
 /* DATA DISPLAY WINDOW STYLING */

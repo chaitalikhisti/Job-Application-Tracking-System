@@ -22,7 +22,7 @@ public class searchData extends Application
 		Text sceneTitle;
 		Label searchBy, searchFor;
 		final ToggleGroup searchSelection = new ToggleGroup();
-		RadioButton dt, cn, pos, city, state, refNo, comm;
+		RadioButton dt, cn, pos, city, state, refNo, comm, all;
 		TextField searchTextField;
 		final DatePicker chooseDate = new DatePicker();;
 		Alert errorAlert;
@@ -41,9 +41,11 @@ public class searchData extends Application
 			ColumnConstraints col1 = new ColumnConstraints();
 		    col1.setPercentWidth(30);
 		    ColumnConstraints col2 = new ColumnConstraints();
-		    col2.setPercentWidth(50);
+		    col2.setPercentWidth(15);
+		    ColumnConstraints col3 = new ColumnConstraints();
+		    col3.setPercentWidth(30);
 			//nodes
-			sceneTitle = new Text("               Data Search Details");
+			sceneTitle = new Text("Search Details");
 			sceneTitle.setId("dataSearchSceneTitle");
 			searchBy = new Label("SEARCH BY: ");
 			dt = new RadioButton("Date");
@@ -60,6 +62,8 @@ public class searchData extends Application
 			refNo.setToggleGroup(searchSelection);
 			comm = new RadioButton("Comments");
 			comm.setToggleGroup(searchSelection);
+			all = new RadioButton("All Data");
+			all.setToggleGroup(searchSelection);
 			searchFor = new Label("SEARCH FOR : ");
 			searchTextField = new TextField();
 			chooseDate.setShowWeekNumbers(true);
@@ -75,20 +79,17 @@ public class searchData extends Application
 			hBtn.setAlignment(Pos.CENTER);
 			hBtn.getChildren().add(btn);
 			//add nodes to layout
-			grid.getColumnConstraints().addAll(col1,col2);
-			grid.add(sceneTitle, 0, 0, 2, 1);
-			grid.add(searchBy, 0, 1, 2, 1);
-			//grid.add(dt, 0, 2); grid.add(cn, 0, 3); grid.add(pos, 0, 4); 
-			//grid.add(city, 0, 5); grid.add(state, 0, 6); grid.add(refNo, 0, 7);
-			//grid.add(comm, 0, 8);
-			grid.add(dt, 0, 2); grid.add(cn, 1, 2); 
-			grid.add(pos, 0, 3); grid.add(city, 1, 3); 
-			grid.add(state, 0, 4); grid.add(refNo, 1, 4);
-			grid.add(comm, 0, 5);
+			grid.getColumnConstraints().addAll(col1,col2, col3);
+			grid.add(sceneTitle, 1, 0, 3, 1);
+			grid.add(searchBy, 0, 1, 3, 1);
+			grid.add(dt, 0, 2); grid.add(cn, 2, 2); 
+			grid.add(pos, 0, 3); grid.add(city, 2, 3); 
+			grid.add(state, 0, 4); grid.add(refNo, 2, 4);
+			grid.add(comm, 0, 5); grid.add(all, 2, 5);
 			grid.add(searchFor, 0, 9);
-			grid.add(searchTextField, 1, 9);
+			grid.add(searchTextField, 1, 9, 2, 1);
 			grid.add(searchHBtn, 0, 10);
-			grid.add(hBtn, 1, 10);
+			grid.add(hBtn, 2, 10);
 			grid.setGridLinesVisible(false);
 			//dialog boxes for buttons
 			errorAlert = new Alert(AlertType.ERROR);
@@ -98,44 +99,92 @@ public class searchData extends Application
 			//radio button events
 			dt.setOnAction(event ->
 			{
-				 searchTextField.setPromptText("YYYY-MM-DD format");
+				if (!(grid.getChildren().contains(searchFor)) || !(grid.getChildren().contains(searchTextField)))
+				{
+					grid.add(searchFor, 0, 9);
+					grid.add(searchTextField, 1, 9);
+				} 
+				searchTextField.setPromptText("YYYY-MM-DD format");
 			});
 			cn.setOnAction(event ->
 			{
+				if (!(grid.getChildren().contains(searchFor)) || !(grid.getChildren().contains(searchTextField)))
+				{
+					grid.add(searchFor, 0, 9);
+					grid.add(searchTextField, 1, 9);
+				} 
 				searchTextField.setPromptText("Ex. Google");
 			});
 			pos.setOnAction(event ->
 			{
+				if (!(grid.getChildren().contains(searchFor)) || !(grid.getChildren().contains(searchTextField)))
+				{
+					grid.add(searchFor, 0, 9);
+					grid.add(searchTextField, 1, 9);
+				} 
 				searchTextField.setPromptText("Ex. Software Engineer");
 			});
 			city.setOnAction(event ->
 			{
+				if (!(grid.getChildren().contains(searchFor)) || !(grid.getChildren().contains(searchTextField)))
+				{
+					grid.add(searchFor, 0, 9);
+					grid.add(searchTextField, 1, 9);
+				} 
 				searchTextField.setPromptText("Ex. New York");
 			});
 			state.setOnAction(event ->
 			{
+				if (!(grid.getChildren().contains(searchFor)) || !(grid.getChildren().contains(searchTextField)))
+				{
+					grid.add(searchFor, 0, 9);
+					grid.add(searchTextField, 1, 9);
+				} 
 				searchTextField.setPromptText("Ex. IL for Illinois");
 			});
 			refNo.setOnAction(event ->
 			{
+				if (!(grid.getChildren().contains(searchFor)) || !(grid.getChildren().contains(searchTextField)))
+				{
+					grid.add(searchFor, 0, 9);
+					grid.add(searchTextField, 1, 9);
+				} 
 				searchTextField.setPromptText("Ex. #177714B");
 			});
 			comm.setOnAction(event ->
 			{
+				if (!(grid.getChildren().contains(searchFor)) || !(grid.getChildren().contains(searchTextField)))
+				{
+					grid.add(searchFor, 0, 9);
+					grid.add(searchTextField, 1, 9);
+				} 
 				searchTextField.setPromptText("Ex. Recruiter name, agency");
+			});
+			all.setOnAction(event ->
+			{
+				if (grid.getChildren().contains(searchFor) &&  grid.getChildren().contains(searchTextField)) 
+				{
+				grid.getChildren().remove(searchFor);
+				grid.getChildren().remove(searchTextField);
+				}
 			});
 			//button events
 			searchBtn.setOnAction(event -> 
 			{
-				if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty())
+				//get toggle selection
+				String radioSelectionString = "";
+				RadioButton selectedRadioButton = (RadioButton) searchSelection.getSelectedToggle();
+				if (selectedRadioButton == all)
+				{
+					//search data in database
+					getWindows.getSearchResultsWindow(searchPageStage);
+				}
+				else if (searchSelection.getSelectedToggle() == null || searchTextField.getText().isEmpty())
 				{
 					errorAlert.showAndWait();
 				}
 				else
 				{
-					//get toggle selection
-					String radioSelectionString = "";
-					RadioButton selectedRadioButton = (RadioButton) searchSelection.getSelectedToggle();
 					if (selectedRadioButton == dt)
 					{
 						radioSelectionString = "Date";
