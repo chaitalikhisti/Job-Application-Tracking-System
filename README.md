@@ -1,7 +1,7 @@
 # Job-Application-Tracking-System
 The basic function of this application is keeping a track of all the job applications made by a job seeker. The idea stems from the fact that it is difficult to keep a record of applications and avoid re-applying to the same positions by checking an extensive file like Excel.<br />
 This system can be used in two ways:
-* Direct use of executable file : jobApp.exe *(Note: Place the executable file in a new folder as it generates supporting files during its first use)*
+* Direct use of executable file : jobApp.exe *(Note: Place the executable file in a new folder as it generates supporting files during its initialization)*
 * Following the application setup given below
 
 ## Application setup
