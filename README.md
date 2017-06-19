@@ -1,5 +1,8 @@
 # Job-Application-Tracking-System
-The basic function of this application is keeping a track of all the job applications made by a job seeker. The idea stems from the fact that it is difficult to keep a record of applications and avoid re-applying to the same positions by checking an extensive file like Excel.
+The basic function of this application is keeping a track of all the job applications made by a job seeker. The idea stems from the fact that it is difficult to keep a record of applications and avoid re-applying to the same positions by checking an extensive file like Excel.<br />
+This system can be used in two ways:
+* Direct use of executable file *(Note: Place the executable file in a new folder as it generates supporting files during its first use)*
+* Following the application setup given below
 
 ## Application setup
 The following details provide an overview of packages and utilities which are a substantial part of the source folder of the application:
@@ -12,11 +15,11 @@ Preferred SQL Server
 #### application package
 ##### *Main.java*
 Java class with the main method having options of data entry, data search and statistical display of application count.
-##### application.css
+##### *application.css*
 CSS file that contains styling for elements in all classes
 #### newEntry package
 #####  *dataEntry.java*
-Java class containing data entry fields with company, position, city, position and date being mandatory fields whereas application ID and comments being the optional fields. Comments can include details of the recruiter details, people who have referred, job agency names (Glassdoor, Indeed, …), etc. preferably in a concise manner.
+Java class containing data entry fields with company, position, city, position and date being mandatory fields whereas application ID and comments being the optional fields. Comments can include details of the recruiter, people who have referred, job agency names (Glassdoor, Indeed, …), etc. preferably in a concise manner.
 #### searchEntry package
 ##### *searchData.java*
 Java class containing data search criteria like date of application, company, position, city, state, application ID and comments with search text field.
