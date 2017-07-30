@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.geometry.*; // for insets, pos
 import javafx.scene.*; // for node, scene
 import javafx.scene.control.*; // for buttons, combobox
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*; // for columnconstraints, gridpane, Hbox
 import javafx.scene.text.Text;
@@ -15,12 +16,14 @@ public class dispChart extends Application
 {
 	GridPane grid;
     Text sceneTitle, invisibleText, invisibleText1, invisibleText2;
+    Alert errorAlert;
     Button submitBtn, backBtn, weeklyBtn, monthlyBtn, yearlyBtn;
     HBox submitHBtn, backHBtn, weeklyHBtn, weekNoHBtn, monthlyHBtn, monthNoHBtn, yearlyHBtn, yearNoHBtn;
     Node weekChart, monthChart, yearChart;
     ComboBox<String> weekNo, monthNo, yearMonthsNo;
     int selectedMonthNo;
     Scene chartScene;
+    boolean connStatus = false;
     
 	@Override 
     public void start(Stage statsPageStage) 
@@ -46,6 +49,11 @@ public class dispChart extends Application
 		invisibleText1.setId("invisibleText5");
 		invisibleText2 = new Text("");
 		invisibleText2.setId("invisibleText6");
+		//error alerts
+		errorAlert = new Alert(AlertType.ERROR);
+		errorAlert.setTitle("Error");
+		errorAlert.setHeaderText(null);
+		errorAlert.setContentText("Database Connection Unavailable");
 		//buttons
 		weeklyBtn =  new Button("WEEKLY");
 		weekNo = displayChartSelections.getWeekSelection();
@@ -82,57 +90,81 @@ public class dispChart extends Application
 		//button events
 		weeklyBtn.setOnAction(event ->
 		{ 
-			if (grid.getChildren().contains(monthChart) || grid.getChildren().contains(yearChart))
+			if (!(connStatus = displayChartUtil.getDBConnFlag()))
 			{
-				grid.getChildren().remove(monthChart);
-				grid.getChildren().remove(yearChart);
+				//connection loss alert
+				errorAlert.showAndWait();
 			}
-			grid.getChildren().remove(monthNoHBtn);
-			grid.getChildren().remove(yearNoHBtn);
-			grid.add(weekNoHBtn, 0, 5);
-			weekNo.setOnAction((event1) -> 
+			else
 			{
-				grid.getChildren().remove(weekChart);
-				weekChart = displayChartUtil.weeklyChart(grid, weekNo);			
-				grid.add(weekChart, 0, 2, 3, 1);
-			});
+				if (grid.getChildren().contains(monthChart) || grid.getChildren().contains(yearChart))
+				{
+					grid.getChildren().remove(monthChart);
+					grid.getChildren().remove(yearChart);
+				}
+				grid.getChildren().remove(monthNoHBtn);
+				grid.getChildren().remove(yearNoHBtn);
+				grid.add(weekNoHBtn, 0, 5);
+				weekNo.setOnAction((event1) -> 
+				{
+					grid.getChildren().remove(weekChart);
+					weekChart = displayChartUtil.weeklyChart(grid, weekNo);			
+					grid.add(weekChart, 0, 2, 3, 1);
+				});
+			}
 		});
 		monthlyBtn.setOnAction(event ->
 		{
-			if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(yearChart))
+			if (!(connStatus = displayChartUtil.getDBConnFlag()))
 			{
-				grid.getChildren().remove(weekChart);
-				grid.getChildren().remove(yearChart);
+				//connection loss alert
+				errorAlert.showAndWait();
 			}
-			grid.getChildren().remove(weekNoHBtn);
-			grid.getChildren().remove(yearNoHBtn);
-			grid.add(monthNoHBtn, 1, 5);
-			monthNo.setOnAction((event1) -> 
+			else
 			{
-				grid.getChildren().remove(monthChart);
-				String monthName = monthNo.getValue();
-				int monthInt = getMonthNo(monthName);
-				monthChart = displayChartUtil.monthlyChart(grid, monthNo, monthInt, monthName);	
-				grid.add(monthChart, 0, 2, 3, 1);
-			});
+				if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(yearChart))
+				{
+					grid.getChildren().remove(weekChart);
+					grid.getChildren().remove(yearChart);
+				}
+				grid.getChildren().remove(weekNoHBtn);
+				grid.getChildren().remove(yearNoHBtn);
+				grid.add(monthNoHBtn, 1, 5);
+				monthNo.setOnAction((event1) -> 
+				{
+					grid.getChildren().remove(monthChart);
+					String monthName = monthNo.getValue();
+					int monthInt = getMonthNo(monthName);
+					monthChart = displayChartUtil.monthlyChart(grid, monthNo, monthInt, monthName);	
+					grid.add(monthChart, 0, 2, 3, 1);
+				});
+			}			
 		});
 		yearlyBtn.setOnAction(event ->
 		{
-			if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(monthChart))
+			if (!(connStatus = displayChartUtil.getDBConnFlag()))
 			{
-				grid.getChildren().remove(weekChart);
-				grid.getChildren().remove(monthChart);
+				//connection loss alert
+				errorAlert.showAndWait();
 			}
-			grid.getChildren().remove(weekNoHBtn);
-			grid.getChildren().remove(monthNoHBtn);
-			grid.add(yearNoHBtn, 2, 5);
-			yearMonthsNo.setOnAction((event1) -> 
+			else
 			{
-				grid.getChildren().remove(yearChart);
-				int yearInt = Integer.parseInt(yearMonthsNo.getValue());
-				yearChart = displayChartUtil.yearlyChart(grid, yearMonthsNo, yearInt);	
-				grid.add(yearChart, 0, 2, 3, 1);
-			});
+				if (grid.getChildren().contains(weekChart) || grid.getChildren().contains(monthChart))
+				{
+					grid.getChildren().remove(weekChart);
+					grid.getChildren().remove(monthChart);
+				}
+				grid.getChildren().remove(weekNoHBtn);
+				grid.getChildren().remove(monthNoHBtn);
+				grid.add(yearNoHBtn, 2, 5);
+				yearMonthsNo.setOnAction((event1) -> 
+				{
+					grid.getChildren().remove(yearChart);
+					int yearInt = Integer.parseInt(yearMonthsNo.getValue());
+					yearChart = displayChartUtil.yearlyChart(grid, yearMonthsNo, yearInt);	
+					grid.add(yearChart, 0, 2, 3, 1);
+				});
+			}			
 		});
 		backBtn.setOnAction(event ->
 		{

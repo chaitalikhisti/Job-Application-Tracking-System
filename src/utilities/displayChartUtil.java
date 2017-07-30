@@ -12,6 +12,7 @@ import java.util.Locale;
 public class displayChartUtil 
 {
 	static Connection c = databaseConnection.establishConnection();
+	static boolean dbConnFlag = databaseConnection.getConnFlag();
 	static Statement st = null;
 	static Statement st1 = null;
 	static Statement st2 = null;
@@ -72,38 +73,41 @@ public class displayChartUtil
 		smallEndWeekDay = endDate.getMonth().name().substring(0, Math.min(endDate.getMonth().name().length(), 3));
 		endDateDetails = endDate.getDayOfMonth()+ " " +smallEndWeekDay+ " " +endDate.getYear();		
 		forLoopStartDate = startDate;
-		try
+		if (dbConnFlag)
 		{
-			 st = c.createStatement();
-		     XYChart.Series series = new XYChart.Series();
-			 //calculations and display in chart
-			 for (int i = 0; i < 7; i++)
-			 {
-				//get data
-				 yesterday = forLoopStartDate;
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE `Date` = '" +yesterday+ "'";
-				 getNoOfApps = getValue(str);
-				 totalApps += getNoOfApps;
-				 //x-axis labels
-				 weekDay = yesterday.getDayOfWeek().name();
-				 String dayOfWeek = weekDay.substring(0, Math.min(weekDay.length(), 3));
-				 currentMonth = yesterday.getMonth();
-				 monthName = currentMonth.name();
-				 smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
-				 currentDate = yesterday.getDayOfMonth();
-				 dayAndDate = "   " +dayOfWeek+ "\n(" + smallMonthName+"-" +currentDate+ ")";	
-				 //construct barchart
-				 series.getData().add(new XYChart.Data(dayAndDate, getNoOfApps));
-				 forLoopStartDate = forLoopStartDate.plus(Period.ofDays(1));
-			 }
-			 someGrid.getChildren().remove(someComboBox);
-			 chartSetup(weekBarChart);
-			 weekBarChart.setTitle("Applications in Week " +weekInt+ " (" +startDateDetails+ " to " +endDateDetails+ ") : " +totalApps);
-			 weekBarChart.getData().add(series);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+			try
+			{
+				 st = c.createStatement();
+			     XYChart.Series series = new XYChart.Series();
+				 //calculations and display in chart
+				 for (int i = 0; i < 7; i++)
+				 {
+					//get data
+					 yesterday = forLoopStartDate;
+					 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE `Date` = '" +yesterday+ "'";
+					 getNoOfApps = getValue(str);
+					 totalApps += getNoOfApps;
+					 //x-axis labels
+					 weekDay = yesterday.getDayOfWeek().name();
+					 String dayOfWeek = weekDay.substring(0, Math.min(weekDay.length(), 3));
+					 currentMonth = yesterday.getMonth();
+					 monthName = currentMonth.name();
+					 smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
+					 currentDate = yesterday.getDayOfMonth();
+					 dayAndDate = "   " +dayOfWeek+ "\n(" + smallMonthName+"-" +currentDate+ ")";	
+					 //construct barchart
+					 series.getData().add(new XYChart.Data(dayAndDate, getNoOfApps));
+					 forLoopStartDate = forLoopStartDate.plus(Period.ofDays(1));
+				 }
+				 someGrid.getChildren().remove(someComboBox);
+				 chartSetup(weekBarChart);
+				 weekBarChart.setTitle("Applications in Week " +weekInt+ " (" +startDateDetails+ " to " +endDateDetails+ ") : " +totalApps);
+				 weekBarChart.getData().add(series);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 		return weekBarChart;
 	}
@@ -121,35 +125,38 @@ public class displayChartUtil
     	//acquiring start date for selected month in current year
 	    refDate = LocalDate.now();
 	    today = LocalDate.of(refDate.getYear(), someMonthInt, 01);
-    	try
-		{
-			 st = c.createStatement();
-		     XYChart.Series series = new XYChart.Series();
-			//calculations and display in chart
-			 for (int i = 0; i < refDate.lengthOfMonth(); i++)
-			 {
-				//get dates data
-				 dayOfMonth = today.getDayOfMonth();
-				 spanDates = dayOfMonth + i;
-				 dayOfMonthString = "" +spanDates;
-				 currentMonth = today.getMonthValue();
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE DAYOFMONTH(`Date`) = '"
-				 +spanDates+ "' AND MONTH(`Date`) = '" +currentMonth+ "'";
-				 getNoOfApps = getValue(str);
-				 totalApps += getNoOfApps;
-				 currentMonthName = today.getMonth();
-				 //construct barchart
-				 series.getData().add(new XYChart.Data(dayOfMonthString, getNoOfApps));
-			 }
-			 someGrid.getChildren().remove(someComboBox);
-			 chartSetup(monthBarChart);
-			 monthBarChart.setTitle("Applications in " +someMonthName+ " : " +totalApps);
-			 monthBarChart.getData().add(series);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}		
+    	if (dbConnFlag)
+    	{
+    		try
+    		{
+    			 st = c.createStatement();
+    		     XYChart.Series series = new XYChart.Series();
+    			//calculations and display in chart
+    			 for (int i = 0; i < refDate.lengthOfMonth(); i++)
+    			 {
+    				//get dates data
+    				 dayOfMonth = today.getDayOfMonth();
+    				 spanDates = dayOfMonth + i;
+    				 dayOfMonthString = "" +spanDates;
+    				 currentMonth = today.getMonthValue();
+    				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE DAYOFMONTH(`Date`) = '"
+    				 +spanDates+ "' AND MONTH(`Date`) = '" +currentMonth+ "'";
+    				 getNoOfApps = getValue(str);
+    				 totalApps += getNoOfApps;
+    				 currentMonthName = today.getMonth();
+    				 //construct barchart
+    				 series.getData().add(new XYChart.Data(dayOfMonthString, getNoOfApps));
+    			 }
+    			 someGrid.getChildren().remove(someComboBox);
+    			 chartSetup(monthBarChart);
+    			 monthBarChart.setTitle("Applications in " +someMonthName+ " : " +totalApps);
+    			 monthBarChart.getData().add(series);
+    		}
+    		catch (Exception e)
+    		{
+    			e.printStackTrace();
+    		}
+    	}
     	return monthBarChart;
 	}
     
@@ -166,36 +173,44 @@ public class displayChartUtil
 		//acquiring first day of current year
 	    //refDate = LocalDate.now();
 		today = LocalDate.of(someYearInt, 01, 01);
-    	try
-		{
-			 st = c.createStatement();
-		     XYChart.Series series = new XYChart.Series();
-		     //calculations and display in chart
-			 for (int i = 0; i < 12; i++)
-			 {
-				 //get dates data
-				 currentMonth = today.getMonthValue();
-				 currentMonthName = today.getMonth();
-				 spanMonths = currentMonth + i;
-				 spanMonthsName = currentMonthName.plus(i);
-				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE MONTH(`Date`) = '" +spanMonths+ "'"
-				 		+ " AND YEAR(`Date`) = '" +someYearInt+ "'";
-				 getNoOfApps = getValue(str);
-				 totalApps += getNoOfApps;
-				 monthName = spanMonthsName.name();
-				 String smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
-				 //construct barchart
-				 series.getData().add(new XYChart.Data(smallMonthName, getNoOfApps));
-			 }
-			 someGrid.getChildren().remove(someComboBox);
-			 chartSetup(yearBarChart);
-			 yearBarChart.setTitle("Applications in " +someYearInt+ " : " +totalApps);
-			 yearBarChart.getData().add(series);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}		
+    	if (dbConnFlag)
+    	{
+    		try
+    		{
+    			 st = c.createStatement();
+    		     XYChart.Series series = new XYChart.Series();
+    		     //calculations and display in chart
+    			 for (int i = 0; i < 12; i++)
+    			 {
+    				 //get dates data
+    				 currentMonth = today.getMonthValue();
+    				 currentMonthName = today.getMonth();
+    				 spanMonths = currentMonth + i;
+    				 spanMonthsName = currentMonthName.plus(i);
+    				 str = "SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata` WHERE MONTH(`Date`) = '" +spanMonths+ "'"
+    				 		+ " AND YEAR(`Date`) = '" +someYearInt+ "'";
+    				 getNoOfApps = getValue(str);
+    				 totalApps += getNoOfApps;
+    				 monthName = spanMonthsName.name();
+    				 String smallMonthName = monthName.substring(0, Math.min(monthName.length(), 3));
+    				 //construct barchart
+    				 series.getData().add(new XYChart.Data(smallMonthName, getNoOfApps));
+    			 }
+    			 someGrid.getChildren().remove(someComboBox);
+    			 chartSetup(yearBarChart);
+    			 yearBarChart.setTitle("Applications in " +someYearInt+ " : " +totalApps);
+    			 yearBarChart.getData().add(series);
+    		}
+    		catch (Exception e)
+    		{
+    			e.printStackTrace();
+    		}	
+    	}
 		return yearBarChart;
     }
+    
+    public static boolean getDBConnFlag()
+	{
+		return dbConnFlag;
+	}
 }

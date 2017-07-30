@@ -65,7 +65,6 @@ public class dataEntryUtil
 	{
 		getParameters(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox, chooseDate, comments);
 		int appNo = 0;
-		System.out.println(" enterData dbConnFlag: " +dbConnFlag);
 		if (dbConnFlag)
 		{
 			if (entryCheck(compName, posName, refNo, cityName, stateName))
@@ -90,13 +89,10 @@ public class dataEntryUtil
 					{
 						System.out.println("Check again");
 					}
-					//c.close();
 				}
 				catch (Exception e)
 				{
-					//dbConnFlag = false;
-					System.out.println("Caught Data Entry Exception");
-					//e.printStackTrace();
+					e.printStackTrace();
 				}
 				entryState = true;
 			}
@@ -104,10 +100,6 @@ public class dataEntryUtil
 			{
 				entryState = false;
 			}
-		}
-		else
-		{
-			System.out.println("No Data Entry Performed");
 		}
 		return entryState;
 	}

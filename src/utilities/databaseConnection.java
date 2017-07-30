@@ -5,6 +5,7 @@ import java.sql.*; // for Connection, DriverManager
 public class databaseConnection
 {
 	static Connection conn = null;
+	public static boolean connFlag = false; //flag to test connection success
 	static String dbURL, username, password;
 	
 	public static Connection establishConnection()
@@ -17,17 +18,31 @@ public class databaseConnection
 	    	conn = DriverManager.getConnection(dbURL, username, password); 
 	        if (conn != null) 
 	        {
-	        	System.out.println("Connection Successfull!!!");
+	        	connFlag = true;
+	        	//System.out.println("Connection Successfull!!!");
 	        }
 	        else
 	        {
-	        	System.out.println("Connection Establishment Failed");
+	        	connFlag = false;
+	        	//System.out.println("Connection Establishment Failed");
 	        }
 	    }
-	    catch (Exception e)
+	    catch (SQLException e)
 	    {
-	    	e.printStackTrace();
+	    	connFlag = false;
+	    	//System.out.println("Connection Establishment Failed");
+	    	//e.printStackTrace();
 	    }
 	    return conn;
+	}
+	
+	public static boolean getConnFlag()
+	{
+		return connFlag;
+	}
+	
+	public static void closeConnection() throws SQLException
+	{
+		conn.close();
 	}
 }

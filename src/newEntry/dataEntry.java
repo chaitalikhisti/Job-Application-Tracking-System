@@ -30,6 +30,7 @@ public class dataEntry extends Application
 	Button submitBtn, cancelBtn;
 	HBox submitHBtn, cancelHBtn;
 	Scene dataEntryScene;
+	String errorString = "";
 	boolean connStatus = false;
 	
 	@Override
@@ -131,22 +132,10 @@ public class dataEntry extends Application
 			cancelHBtn.setAlignment(Pos.CENTER);
 			cancelHBtn.getChildren().add(cancelBtn);
 			//dialog boxes for buttons
+			//alert
 			errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setTitle("Error");
 			errorAlert.setHeaderText(null);
-			errorAlert.setContentText("All fields with * must be filled");
-			errorAlert1 = new Alert(AlertType.ERROR);
-			errorAlert1.setTitle("Error");
-			errorAlert1.setHeaderText(null);
-			errorAlert1.setContentText("A valid record for this entry already exists");
-			errorAlert2 = new Alert(AlertType.ERROR);
-			errorAlert2.setTitle("Error");
-			errorAlert2.setHeaderText(null);
-			errorAlert2.setContentText("Enter valid date");
-			errorAlert3 = new Alert(AlertType.ERROR);
-			errorAlert3.setTitle("Error");
-			errorAlert3.setHeaderText(null);
-			errorAlert3.setContentText("Database Connection Lost");
 			submitAlert = new Alert(AlertType.CONFIRMATION);
 			submitAlert.setTitle("Successful!!!");
 			submitAlert.setHeaderText(null);
@@ -184,6 +173,8 @@ public class dataEntry extends Application
 			{
 				if (compTextField.getText().isEmpty() || posTextField.getText().isEmpty() || cityNameTextField.getText().isEmpty() || stateNameComboBox.getSelectionModel().isEmpty())
 				{
+					errorString = "All fields with * must be filled";
+					errorAlert.setContentText(errorString);
 					errorAlert.showAndWait();
 				}				
 				else
@@ -194,7 +185,9 @@ public class dataEntry extends Application
 					}
 					else if (chooseDate.getValue().isAfter(LocalDate.now()))
 					{
-						errorAlert2.showAndWait();
+						errorString = "Enter valid date";
+						errorAlert.setContentText(errorString);
+						errorAlert.showAndWait();
 					}
 					else
 					{
@@ -213,13 +206,16 @@ public class dataEntry extends Application
 						}						
 						else if (!(connStatus = dataEntryUtil.getDBConnFlag()))
 						{
-							//connection lost
-							System.out.println("connStatus: " +connStatus);
-							errorAlert3.showAndWait();
+							//connection loss alert
+							errorString = "Database Connection Unavailable";
+							errorAlert.setContentText(errorString);	
+							errorAlert.showAndWait();
 						}
 						else
 						{
-							errorAlert1.showAndWait();
+							errorString = "A valid record for this entry already exists";
+							errorAlert.setContentText(errorString);							
+							errorAlert.showAndWait();
 						}		
 					}			
 				}
