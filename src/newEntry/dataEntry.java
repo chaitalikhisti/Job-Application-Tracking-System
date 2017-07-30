@@ -12,7 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*; // for GridPane, HBox
 import javafx.scene.text.*; // for Text
 import java.time.LocalDate;
-import utilities.*;
+import utilities.dataEntryUtil;
+import utilities.getWindows;
 
 public class dataEntry extends Application 
 {
@@ -25,10 +26,11 @@ public class dataEntry extends Application
 	String asterisk, colon;
 	final ComboBox<String> stateNameComboBox = new ComboBox<String>();
 	DatePicker chooseDate;
-	Alert errorAlert, errorAlert1, errorAlert2, submitAlert;
+	Alert errorAlert, errorAlert1, errorAlert2, errorAlert3, submitAlert;
 	Button submitBtn, cancelBtn;
 	HBox submitHBtn, cancelHBtn;
 	Scene dataEntryScene;
+	boolean connStatus = false;
 	
 	@Override
 	public void start(Stage logPageStage) 
@@ -141,6 +143,10 @@ public class dataEntry extends Application
 			errorAlert2.setTitle("Error");
 			errorAlert2.setHeaderText(null);
 			errorAlert2.setContentText("Enter valid date");
+			errorAlert3 = new Alert(AlertType.ERROR);
+			errorAlert3.setTitle("Error");
+			errorAlert3.setHeaderText(null);
+			errorAlert3.setContentText("Database Connection Lost");
 			submitAlert = new Alert(AlertType.CONFIRMATION);
 			submitAlert.setTitle("Successful!!!");
 			submitAlert.setHeaderText(null);
@@ -179,7 +185,7 @@ public class dataEntry extends Application
 				if (compTextField.getText().isEmpty() || posTextField.getText().isEmpty() || cityNameTextField.getText().isEmpty() || stateNameComboBox.getSelectionModel().isEmpty())
 				{
 					errorAlert.showAndWait();
-				}
+				}				
 				else
 				{
 					if (chooseDate.getValue() == null)
@@ -203,7 +209,13 @@ public class dataEntry extends Application
 							cityNameTextField.clear();
 							stateNameComboBox.setValue("Select State");
 							chooseDate.setValue(null);
-							getWindows.getMainWindow(logPageStage);
+							getWindows.getMainWindow(logPageStage);							
+						}						
+						else if (!(connStatus = dataEntryUtil.getDBConnFlag()))
+						{
+							//connection lost
+							System.out.println("connStatus: " +connStatus);
+							errorAlert3.showAndWait();
 						}
 						else
 						{

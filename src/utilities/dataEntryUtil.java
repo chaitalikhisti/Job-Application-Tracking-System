@@ -7,13 +7,15 @@ import javafx.scene.control.*; //for ComboBox, TextField
 public class dataEntryUtil
 {
 	static Connection c = databaseConnection.establishConnection();
+	static boolean dbConnFlag = databaseConnection.getConnFlag();
 	static Statement st = null;
 	static Statement st1 = null;
 	static Statement st2 = null;
 	static String compName, posName, cityName, stateName, commentDetails;
 	static LocalDate date;
 	static String refNo = null;
-	static Boolean entryCondition, entryState;
+	static Boolean entryCondition = false;
+	static Boolean entryState = false;
 	
 	//get values from data entry textfields
 	public static void getParameters(TextField someCompTextField, TextField somePosTextField, TextField someRefTextField,
@@ -50,8 +52,10 @@ public class dataEntryUtil
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
-		}
+			//dbConnFlag = false;
+			System.out.println("Caught Data Entry Check Exception");
+			//e.printStackTrace();
+		}		
 		return entryCondition;
 	}
 	
@@ -61,40 +65,55 @@ public class dataEntryUtil
 	{
 		getParameters(compTextField, posTextField, refNoTextField, cityNameTextField, stateNameComboBox, chooseDate, comments);
 		int appNo = 0;
-		if (entryCheck(compName, posName, refNo, cityName, stateName))
+		System.out.println(" enterData dbConnFlag: " +dbConnFlag);
+		if (dbConnFlag)
 		{
-			try
+			if (entryCheck(compName, posName, refNo, cityName, stateName))
 			{
-				st = c.createStatement();
-				ResultSet rs = st.executeQuery("SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata`");
-				if (rs != null)
+				try
 				{
-					rs.next();
-					appNo = rs.getInt(1);
-					appNo++;
-					st1 = c.createStatement();
-					String str = "INSERT INTO `jobdetails`.`jobdata` " + 
-					"(`App No`, `Date`, `Company`, `Position`, `City`, `State`, `Ref No`, `Comments`) " + 
-					"VALUES ('" +appNo+ "', '" +date+ "', '" +compName+ "', '" +posName+
-					"', '" +cityName+ "', '"+ stateName+ "', '" +refNo+ "', '" +commentDetails+ "')";
-					st1.executeUpdate(str);
+					st = c.createStatement();
+					ResultSet rs = st.executeQuery("SELECT COUNT(`App No`) FROM `jobdetails`.`jobdata`");
+					if (rs != null)
+					{
+						rs.next();
+						appNo = rs.getInt(1);
+						appNo++;
+						st1 = c.createStatement();
+						String str = "INSERT INTO `jobdetails`.`jobdata` " + 
+						"(`App No`, `Date`, `Company`, `Position`, `City`, `State`, `Ref No`, `Comments`) " + 
+						"VALUES ('" +appNo+ "', '" +date+ "', '" +compName+ "', '" +posName+
+						"', '" +cityName+ "', '"+ stateName+ "', '" +refNo+ "', '" +commentDetails+ "')";
+						st1.executeUpdate(str);
+					}
+					else
+					{
+						System.out.println("Check again");
+					}
+					//c.close();
 				}
-				else
+				catch (Exception e)
 				{
-					System.out.println("Check again");
+					//dbConnFlag = false;
+					System.out.println("Caught Data Entry Exception");
+					//e.printStackTrace();
 				}
-				//c.close();
+				entryState = true;
 			}
-			catch (Exception e)
+			else
 			{
-				e.printStackTrace();
+				entryState = false;
 			}
-			entryState = true;
 		}
 		else
 		{
-			entryState = false;
+			System.out.println("No Data Entry Performed");
 		}
 		return entryState;
+	}
+	
+	public static boolean getDBConnFlag()
+	{
+		return dbConnFlag;
 	}
 }
